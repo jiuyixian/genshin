@@ -24,7 +24,7 @@ export default class LogCount extends base {
     ]
 
     /** 五星角色 */
-    this.role5 = ['刻晴', '莫娜', '七七', '迪卢克', '琴', '提纳里', '迪希雅']
+    this.role5 = ['刻晴', '莫娜', '七七', '迪卢克', '琴', '提纳里', '迪希雅', '梦见月瑞希']
     /** 五星武器 */
     this.weapon5 = ['阿莫斯之弓', '天空之翼', '天空之卷', '天空之脊', '天空之傲', '天空之刃', '四风原典', '和璞鸢', '狼的末路', '风鹰剑']
     if (e.isSr) {
@@ -124,14 +124,14 @@ export default class LogCount extends base {
 
   async getUid () {
     if (!fs.existsSync(this.path)) {
-      this.e.reply(`暂无抽卡记录\n${this.e?.isSr ? '*' : '#'}记录帮助，查看配置说明`, false, { at: true })
+      this.e.reply(`暂无抽卡记录\n【星铁抽卡记录不能直接更新，请发送 #抽卡帮助 查看方法自提链接】\n${this.e?.isSr ? '*' : '#'}记录帮助，查看配置说明`, false, { at: true })
       return false
     }
 
     let logs = fs.readdirSync(this.path)
 
     if (lodash.isEmpty(logs)) {
-      this.e.reply(`暂无抽卡记录\n${this.e?.isSr ? '*' : '#'}记录帮助，查看配置说明`, false, { at: true })
+      this.e.reply(`暂无抽卡记录\n【星铁抽卡记录不能直接更新，请发送 #抽卡帮助 查看方法自提链接】\n${this.e?.isSr ? '*' : '#'}记录帮助，查看配置说明`, false, { at: true })
       return false
     }
 

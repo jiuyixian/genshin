@@ -46,7 +46,7 @@ export default class User extends base {
       this.e.ck = this.ck
     }
     if (!this.e.ck) {
-      await this.e.reply(`请【私聊】发送米游社Cookie，获取教程：\n${set.cookieDoc}`)
+      await this.e.reply(`发送 #扫码登录 快捷绑定Cookie\n请【私聊】发送米游社Cookie，获取教程：${set.cookieDoc}`)
       return
     }
 
@@ -121,12 +121,13 @@ export default class User extends base {
     logger.mark(`${this.e.logFnc} 保存Cookie成功 [ltuid:${mys.ltuid}]`)
 
     let uidMsg = ['绑定Cookie成功', mys.getUidInfo()]
-    await this.e.reply(uidMsg.join('\n'))
+    //    await this.e.reply(uidMsg.join('\n'))
     let msg = []
+    msg.push(uidMsg.join('\n'))
     let button = []
     if (mys.hasGame('gs')) {
       msg.push(
-        '原神模块支持：',
+        '原神模块常用功能：',
         '【#uid】当前绑定ck uid列表',
         '【#我的ck】查看当前绑定ck',
         '【#删除ck】删除当前绑定ck',
@@ -134,7 +135,10 @@ export default class User extends base {
         '【#原石】查看原石札记',
         '【#原石统计】原石统计数据',
         '【#练度统计】角色列表数据',
-        '【#面板】【#更新面板】面板信息'
+        '【#原石预估】未来原石数量/抽卡资源',
+        '【#更新面板】面板信息',
+        '【#深渊】【#剧诗】',
+        '【#更新抽卡记录】'
       )
       button.push([
         { text: '#uid', callback: '#uid' },
@@ -145,21 +149,27 @@ export default class User extends base {
         { text: '#原石', callback: '#原石' },
         { text: '#原石统计', callback: '#原石统计' }
       ], [
+        { text: '#原石预估', callback: '#原石预估' },
         { text: '#练度统计', callback: '#练度统计' },
-        { text: '#面板', callback: '#面板' },
         { text: '#更新面板', callback: '#更新面板' }
+      ], [
+        { text: '#深渊', callback: '#深渊' },
+        { text: '#剧诗', callback: '#剧诗' },
+        { text: '#更新抽卡记录', callback: '#更新抽卡记录' }
       ])
     }
     if (mys.hasGame('sr')) {
       msg.push(
-        '星穹铁道支持：',
+        '星穹铁道常用功能：',
         '【*uid】当前绑定ck uid列表',
         '【*删除ck】删除当前绑定ck',
         '【*体力】查询当前开拓力',
         '【*星琼】查看星琼月历',
         '【*星琼统计】星琼统计数据',
+        '【星琼预估】未来星琼数量/抽卡资源',
         '【*练度统计】角色列表数据',
-        '【*面板】【*更新面板】面板信息'
+        '【*面板】【*更新面板】面板信息',
+        '【*回忆】【*末日】【*虚构】查询三深渊'
       )
       button.push([
         { text: '*uid', callback: '*uid' },
@@ -168,17 +178,44 @@ export default class User extends base {
       ], [
         { text: '*星琼', callback: '*星琼' },
         { text: '*星琼统计', callback: '*星琼统计' },
-        { text: '*练度统计', callback: '*练度统计' }
+        { text: '*星琼预估', callback: '*星琼预估' }
       ], [
+        { text: '*练度统计', callback: '*练度统计' },
         { text: '*面板', callback: '*面板' },
         { text: '*更新面板', callback: '*更新面板' }
       ])
     }
     if (mys.hasGame('zzz')) {
       msg.push(
-        '绝区零支持：',
-        '无'
+        '绝区零常用功能：',
+        '【%uid】当前绑定uid列表',
+        '【%体力】查询当前电量',
+        '【%防卫战】查询深渊战况',
+        '【%菲林】查看菲林月历',
+        '【%菲林统计】菲林统计数据',
+        '【%练度统计】角色列表数据',
+        '【%面板列表】【%更新面板】面板信息',
+        '【%更新抽卡记录】仅更新6月内数据',
+        '【%抽卡记录】查看抽卡记录',
+        '【%危局】查看危局战况'
       )
+      button.push([
+        { text: '%uid', callback: '%uid' },
+        { text: '%体力', callback: '%体力' },
+        { text: '%防卫战', callback: '%防卫战' }
+      ], [
+        { text: '%菲林', callback: '%菲林' },
+        { text: '%菲林统计', callback: '%菲林统计' },
+        { text: '%菲林预估', callback: '%菲林预估' }
+      ], [
+        { text: '%练度统计', callback: '%练度统计' },
+        { text: '%面板列表', callback: '%面板列表' },
+        { text: '%更新面板', callback: '%更新面板' }
+      ], [
+        { text: '%更新抽卡记录', callback: '%更新抽卡记录' },
+        { text: '%抽卡记录', callback: '%抽卡记录' },
+        { text: '%危局', callback: '%危局' }
+      ])
     }
     msg = await common.makeForwardMsg(this.e, [[msg.join('\n'), segment.button(...button)]], '绑定成功：使用命令说明')
     await this.e.reply(msg)

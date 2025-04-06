@@ -60,7 +60,7 @@ export default class GachaLog extends base {
 
     if (!await this.checkUrl(param)) return
 
-    this.e.reply("链接发送成功，数据获取中……")
+    this.e.reply(`链接发送成功，UID:${this.uid}数据获取中……`)
 
     // 是否全量更新抽卡记录
     this.fetchFullLog = await this.isFetchFullLog()
@@ -78,8 +78,9 @@ export default class GachaLog extends base {
       }
       if (i <= 1) await common.sleep(500)
     }
+    MakeMsg.push(`UID：${this.uid} 记录获取成功\n`)
     MakeMsg.push(tmpMsg)
-    MakeMsg.push(`\n抽卡记录更新完成，您还可回复\n【${this?.e?.isSr ? "*" : "#"}全部记录】统计全部抽卡数据\n【${this?.e?.isSr ? "*光锥" : "#武器"}记录】统计${this?.e?.isSr ? "星铁光锥" : "武器"}池数据\n【${this?.e?.isSr ? "*" : "#"}角色统计】按卡池统计数据\n【${this?.e?.isSr ? "*" : "#"}导出记录】导出记录数据`)
+    MakeMsg.push(`\n UID：${this.uid} 抽卡记录更新完成，您还可回复\n【${this?.e?.isSr ? "*" : "#"}全部记录】统计全部抽卡数据\n【${this?.e?.isSr ? "*光锥" : "#武器"}记录】统计${this?.e?.isSr ? "星铁光锥" : "武器"}池数据\n【${this?.e?.isSr ? "*" : "#"}角色统计】按卡池统计数据\n【${this?.e?.isSr ? "*" : "#"}导出记录】导出记录数据`)
     await this.e.reply(MakeMsg)
 
     if (this.fetchFullLog) {
@@ -269,9 +270,9 @@ export default class GachaLog extends base {
     let logJson = this.readJson()
     /** 第一次获取增加提示 */
     if (lodash.isEmpty(logJson.list) && this.type === 301) {
-      await this.e.reply(`开始获取${this.typeName}记录，首次获取数据较多，请耐心等待...`)
+      await this.e.reply(`开始获取 UID:${this.uid} 的${this.typeName}记录，首次获取数据较多，请耐心等待...`)
     } else if (this.fetchFullLog && this.type === 301) {
-      await this.e.reply(`开始获取${this.typeName}记录，全量更新获取数据较多，请耐心等待...`)
+      await this.e.reply(`开始获取 UID:${this.uid} 的${this.typeName}记录，全量更新获取数据较多，请耐心等待...`)
     }
 
     let logRes = await this.getAllLog(logJson.ids, authkey)
@@ -735,6 +736,10 @@ export default class GachaLog extends base {
       迪希雅: {
         start: "2023-03-01 06:00:00",
         end: "2023-03-21 17:59:59"
+      },
+      梦见月瑞希: {
+        start: "2025-02-12 06:00:00",
+        end: "2025-03-4 17:59:59"
       }
     }
     if (lodash.keys(role5join).includes(this.role.name)) {

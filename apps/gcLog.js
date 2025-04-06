@@ -1,9 +1,9 @@
 import plugin from "../../../lib/plugins/plugin.js"
 import fs from "node:fs"
 import GachaLog from "../model/gachaLog.js"
-import LogCount from "../model/logCount.js"
 import ExportLog from "../model/exportLog.js"
-
+import LogCount from "../model/logCount.js"
+import common from "../../../lib/common/common.js"
 const _path = process.cwd() + "/plugins/genshin"
 
 export class gcLog extends plugin {
@@ -27,16 +27,12 @@ export class gcLog extends plugin {
           fnc: "getLog"
         },
         {
-          reg: "^#?(原神|星铁)?(强制)?导出记录(json)?(v2|v4)?$",
+          reg: "^#?(原神|星铁)?(强制)?导出记录(json)?$",
           fnc: "exportLog"
         },
         {
-          reg: "^#?(记录帮助|抽卡帮助)$",
+          reg: "^#?(安卓|苹果|电脑|pc|ios|记录|抽卡)帮助$",
           fnc: "help"
-        },
-        {
-          reg: "^#?(安卓|苹果|电脑|pc|ios)帮助$",
-          fnc: "helpPort"
         },
         {
           reg: "^#?(原神|星铁)?(抽卡|抽奖|角色|武器|集录|常驻|up|新手|光锥)池*统计$",
@@ -50,7 +46,7 @@ export class gcLog extends plugin {
       ]
     })
 
-    this.androidUrl = "https://docs.qq.com/doc/DUWpYaXlvSklmVXlX"
+    this.androidUrl = "https://b.storyo.cn/archives/gslink"
     Object.defineProperty(this, "button", {
       get() {
         this.prefix = this.e?.isSr ? "*" : "#"
@@ -115,11 +111,7 @@ export class gcLog extends plugin {
     if (this.e.isGroup && !this.e.msg.includes("强制")) {
       return this.reply("建议私聊导出，若你确认要在此导出，请发送【#强制导出记录】", false, { at: true })
     }
-    if (this.e.msg.includes("v2")) {
-      this.e.uigfver = 'v2'
-    }else {
-      this.e.uigfver = 'v4'
-    }
+
     return new ExportLog(this.e).exportJson()
   }
 
@@ -127,7 +119,7 @@ export class gcLog extends plugin {
     if (this.e.isGroup && !this.e.msg.includes("强制")) {
       return this.reply("建议私聊导入，若你确认要在此导入，请发送【#强制导入记录】", false, { at: true })
     }
-    
+
     this.setContext("logJsonFile")
     return this.reply("请发送Json文件")
   }
@@ -142,25 +134,103 @@ export class gcLog extends plugin {
       this.reply("已收到文件，请撤回", false, { at: true })
   }
 
-  help() {
-    this.e.reply([segment.image(`file://${_path}/resources/logHelp/记录帮助.png`), segment.button([
-      { text: "电脑", callback: "#电脑帮助" },
-      { text: "安卓", callback: "#安卓帮助" },
-      { text: "苹果", callback: "#苹果帮助" },
-    ])])
-  }
+  async help(e) {
+    let textMessage1 =
+        `最下面有详细方法
+【原神】
+发送【#扫码登录】，米游社扫码，然后 发送 【#更新抽卡记录】，【#更新小助手抽卡记录】 等待即可
 
-  helpPort() {
-    let msg = this.e.msg.replace(/#|帮助/g, "")
+【崩坏：星穹铁道】【下方 提供方法指路，是否使用自己判断】
+星铁抽卡记录：不能直接更新记录，需要自己提取
 
-    if (["电脑", "pc"].includes(msg)) {
-      this.e.reply(segment.image(`file://${_path}/resources/logHelp/记录帮助-电脑.png`))
-    } else if (["安卓"].includes(msg)) {
-      this.e.reply(`安卓抽卡记录获取教程：${this.androidUrl}`)
-    } else if (["苹果", "ios"].includes(msg)) {
-      this.e.reply(segment.image(`file://${_path}/resources/logHelp/记录帮助-苹果.png`))
-    }
-  }
+【绝区零】
+发送【#扫码登录】，米游社扫码，然后 发送 【%更新抽卡记录】  等待即可
+
+手机软件：
+https://www.wyylkjs.top/HoYoGet/
+手机端云星铁快捷获取方法:
+https://b.storyo.cn/archives/srlink#cloud-android
+通用获取方法:
+https://feixiaoqiu.com/n/#/xt/gacha_link
+电脑获取:
+https://github.com/biuuu/star-rail-warp-export
+https://github.com/Scighost/Starward
+`;
+    let textMessage2 = `    
+【记录帮助-安卓】
+同上      
+    
+【记录帮助-苹果】
+- 苹果手机需要用捉包获取 历史记录页面链接 
+- 应用商店搜索抓包工具 Stream ，下载安装
+- 打开 Stream ，允许 添加VPN配置 ，安装 CA证书 
+- 点左上角 开始捉包 按钮
+- 打开游戏-祈愿- 历史记录页面 ，或者点右上角刷新这个页面
+- 回到 Stream ,点左上角 停止抓包 按钮停止
+- 点右边 抓包历史 按钮，选择最上面一条
+- 选择 按域名 ，选择域名为  hk4e-api.mihoyo.com  那一条
+- 点最上面一条，选择 请求 ，点击 请求信息 
+-  复制请求连接 ，最后 私聊 发送给机器人
+    
+【记录帮助-电脑】
+
+【快捷】原神    PC端获取方法1：
+    1.打开原神祈愿页面→ 历史记录 保持不动
+    2.然后按 win + r 键
+    3.输入：
+
+powershell iex(irm 'https://gitee.com/storyc/halo-file/raw/master/gsLink-amwz.ps1')
+
+    4.抽卡分析的链接就在剪贴板了，粘贴即可
+
+原神    PC端获取方法2：
+    1.在原神PC端按下ESC-->祈愿-->历史记录，成功进入到如下页面（建议多翻几页）
+    2.在桌面按下“Win+R”打开运行，输入\n“   powershell  ”  点击确定
+    3.在弹出的程序框中再输入代码： 
+    
+    iex(irm 'https://img.lelaer.com/cn.ps1')   
+    
+    国际服的代码为
+    
+     iex(irm  'https://img.lelaer.com/oc.ps1')   
+
+    4.点击确定后，抽卡分析的链接就会自动复制到剪贴板了，按Ctrl+V即可粘贴
+
+【快捷】崩坏：星穹铁道   PC端获取方法1：
+    1.打开星穹铁道祈愿页面 ->历史记录，多翻几页
+    2.然后按 win + r 键
+    3.输入：
+
+    powershell iex(irm 'https://gitee.com/storyc/halo-file/raw/master/srLink-rfqw.ps1')
+（没试过国际服）
+    4.抽卡分析的链接就在剪贴板了，粘贴即可
+
+崩坏：星穹铁道   PC端获取方法2：
+    1.打开星穹铁道祈愿页面 ->历史记录，多翻几页
+    2.回到桌面，按win+r键 输入：  powershell
+    3.在弹出的命令窗口输入以下命令：
+
+    国服  Invoke-Expression (New-Object Net.WebClient).DownloadString( 'https://xingqiong-oss.oss-cn-hangzhou.aliyuncs.com/pc/down/s_gf.ps1')
+
+    国际服   Invoke-Expression (New-Object Net.WebClient).DownloadString( 'https://xingqiong-oss.oss-cn-hangzhou.aliyuncs.com/pc/down/s_gj.ps1')
+
+    4.复制抽卡分析链接即可
+
+【快捷】绝区零   PC端获取方法1：
+    1.打开绝区零调频页面→详情→ 调频记录 保持不动
+    2.然后按 win + r 键
+    3.输入：
+
+powershell iex(irm 'https://gitee.com/storyc/halo-file/raw/master/zzzLink-bxgb.ps1')
+
+    4.抽卡分析的链接就在剪贴板了，粘贴即可
+    `;
+    let msg = [];
+    msg.push(segment.text(textMessage1));
+    msg.push(segment.text(textMessage2));
+    if (msg) await this.reply(common.makeForwardMsg(e, msg, `抽卡帮助`));// 文本消息合并
+    return true;
+}
 
   async logCount() {
     let data = await new LogCount(this.e).count()

@@ -19,15 +19,15 @@ export class material extends plugin {
       ]
     })
 
-    this.path = "./temp/material/gs/友人A"
+    this.path = "./temp/material/gs/关蝎"
     this.pathOther = "./temp/material/gs/other"
-    this.srPath = "./temp/material/sr/小橙子啊"
+    this.srPath = "./temp/material/sr"
     this.srPathOther = "./temp/material/sr/other"
 
     this.url = "https://bbs-api.mihoyo.com/post/wapi/getPostFullInCollection?&gids=2&order_type=2&collection_id="
 
-    this.collection_id = [428421, 1164644, 1362644]
-    this.srCollection_id = [1998643, 2146693, 2279356]
+    this.collection_id = [2473903]
+    this.srCollection_id = [2279356,2146693]
 
     this.special = ["雷电将军", "珊瑚宫心海", "菲谢尔", "托马", "八重神子", "九条裟罗", "辛焱", "神里绫华"]
 
