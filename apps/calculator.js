@@ -7,21 +7,21 @@ import gsCfg from '../model/gsCfg.js'
 export class calculator extends plugin {
   constructor () {
     super({
-      name: '养成计算',
+      name: '养成材料计算',
       dsc: '角色养成材料计算器',
       event: 'message',
-      priority: 700,
+      priority: -700,
       rule: [
         {
-          reg: '^#*(星铁)?(.*)(养成|计算)([0-9]|,|，| )*$',
+          reg: '^#*(星铁)?(.*)(养成|材料)([0-9]|,|，| )*$',
           fnc: 'Calculator'
         },
         {
-          reg: '^#*(星铁)?角色(养成|计算|养成计算)$',
+          reg: '^#*(星铁)?角色(养成|计算|养成计算)帮助$',
           fnc: 'calculatorHelp'
         },
         {
-          reg: '^#*尘歌壶模数(养成|计算|养成计算)$',
+          reg: '^#*尘歌壶模数(养成|计算|养成计算)帮助$',
           fnc: 'blueprintHelp'
         },
         {
@@ -57,16 +57,16 @@ export class calculator extends plugin {
 
   /** #刻晴养成 */
   async Calculator () {
-    let role = gsCfg.getRole(this.e.msg, '#|＃|星铁|养成|计算|[0-9]|,|，| ', this.e.isSr)
+    let role = gsCfg.getRole(this.e.msg, '#|＃|星铁|养成|材料|[0-9]|,|，| ', this.e.isSr)
     if (!role) return false
 
     if ([10000005, 10000007, 20000000].includes(Number(role.roleId))) {
       await this.e.reply('暂不支持旅行者养成计算')
-      return true
+      return false
     }
 
     let data = await new Calculator(this.e).get(role)
-    if (!data) return
+    if (!data) return false
 
     this.renderImg('genshin', `html/calculator/calculator-${data.game}`, data)
   }

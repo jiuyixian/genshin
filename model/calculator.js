@@ -66,7 +66,7 @@ export default class Calculator extends base {
   async getSet () {
     let defSetSkill = this.e.isSr ? '80,80,6,10,10,10'.split(',') : '90,90,10,10,10'.split(',')
 
-    let set = this.e.msg.replace(/#|＃|星铁|养成|计算/g, '').trim()
+    let set = this.e.msg.replace(/#|＃|星铁|养成|材料/g, '').trim()
 
     set = set.replace(/，| /g, ',')
 

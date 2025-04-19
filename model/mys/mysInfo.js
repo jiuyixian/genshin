@@ -6,7 +6,7 @@ import MysUser from './MysUser.js'
 import DailyCache from './DailyCache.js'
 
 export default class MysInfo {
-  static tips = '请先#绑定Cookie\n发送【Cookie帮助】查看配置教程'
+  static tips = '请发送  #扫码登录'
 
   constructor(e) {
     if (e) {
@@ -339,8 +339,8 @@ export default class MysInfo {
     }
 
     if (!this.ckInfo.ck) {
-      this.e.reply(['暂无可用CK，请绑定更多用户或设置公共ck..', segment.button([
-        { text: 'Cookie帮助', callback: '#Cookie帮助' }
+      this.e.reply(['暂无可用CK，请发送  #扫码登录', segment.button([
+        { text: '扫码登录', callback: '#扫码登录' }
       ])])
     }
 
