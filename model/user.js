@@ -557,7 +557,7 @@ export default class User extends base {
   async myCk() {
     let user = await this.user()
     if (!user.hasCk) {
-      this.e.reply(['当前尚未绑定Cookie', segment.button([
+      this.e.reply(['当前尚未绑定Cookie，请发送  #扫码登录', segment.button([
         { text: '帮助', input: '#Cookie帮助' }
       ])])
     }

@@ -212,7 +212,7 @@ export class user extends plugin {
   /** 我的ck */
   async myCk() {
     if (this.e.isGroup) {
-      await this.reply('请私聊查看')
+      await this.reply('请加好友私聊查看')
       return
     }
     await this.User.myCk()
