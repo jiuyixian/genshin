@@ -435,7 +435,7 @@ export default class GachaLog extends base {
       logData.push(data)
     }
     if (logData.length === 0) {
-      this.e.reply(`暂无抽卡记录\n${this.e?.isSr ? "*" : "#"}记录帮助，查看配置说明`, false, { at: true })
+      this.e.reply(`暂无抽卡记录\n请发送 #记录帮助 `, false, { at: true })
       return true
     }
     for (let i of logData) {
@@ -506,14 +506,14 @@ export default class GachaLog extends base {
 
   async getUid() {
     if (!fs.existsSync(this.path)) {
-      this.e.reply(`暂无抽卡记录\n${this.e?.isSr ? "*" : "#"}记录帮助，查看配置说明`, false, { at: true })
+      this.e.reply(`暂无抽卡记录\n请发送 #记录帮助 `, false, { at: true })
       return false
     }
 
     let logs = fs.readdirSync(this.path)
 
     if (lodash.isEmpty(logs)) {
-      this.e.reply(`暂无抽卡记录\n${this.e?.isSr ? "*" : "#"}记录帮助，查看配置说明`, false, { at: true })
+      this.e.reply(`暂无抽卡记录\n请发送 #记录帮助 `, false, { at: true })
       return false
     }
 
@@ -727,73 +727,73 @@ export default class GachaLog extends base {
     let role5join = {
       刻晴: [
         {
-          start: "2021-02-17 18:00:00",
-          end: "2021-03-02 15:59:59"
+            start: "2021-02-17 18:00:00",
+            end: "2021-03-02 15:59:59"
         }
       ],
       提纳里: [
         {
-          start: "2022-08-24 06:00:00",
-          end: "2022-09-09 17:59:59"
+            start: "2022-08-24 06:00:00",
+            end: "2022-09-09 17:59:59"
         }
       ],
       迪希雅: [
         {
-          start: "2023-03-01 06:00:00",
-          end: "2023-03-21 17:59:59"
+            start: "2023-03-01 06:00:00",
+            end: "2023-03-21 17:59:59"
         }
       ],
       梦见月瑞希: [
         {
-          start: "2025-02-12 06:00:00",
-          end: "2025-03-04 17:59:59"
+            start: "2025-02-12 06:00:00",
+            end: "2025-03-04 17:59:59"
         }
       ],
       希儿: [
         {
-          start: "2023-04-26 06:00:00",
-          end: "2025-05-17 17:59:59"
+            start: "2023-04-26 06:00:00",
+            end: "2023-05-17 17:59:59"
         },
         {
-          start: "2023-10-27 12:00:00",
-          end: "2023-11-14 14:59:59"
+            start: "2023-10-27 12:00:00",
+            end: "2023-11-14 14:59:59"
         }
       ],
       刃: [
         {
-          start: "2023-07-19 06:00:00",
-          end: "2023-08-09 11:59:59"
+            start: "2023-07-19 06:00:00",
+            end: "2023-08-09 11:59:59"
         },
         {
-          start: "2023-12-27 06:00:00",
-          end: "2024-01-17 11:59:59"
+            start: "2023-12-27 06:00:00",
+            end: "2024-01-17 11:59:59"
         }
       ],
       符玄: [
         {
-          start: "2023-09-20 12:00:00",
-          end: "2023-10-10 14:59:59"
+            start: "2023-09-20 12:00:00",
+            end: "2023-10-10 14:59:59"
         },
         {
-          start: "2024-05-29 12:00:00",
-          end: "2024-06-18 14:59:59"
+            start: "2024-05-29 12:00:00",
+            end: "2024-06-18 14:59:59"
         }
       ]
     }
     if (role5join[this.role.name]) {
-      for (const period of role5join[this.role.name]) {
-        const start = new Date(period.start).getTime()
-        const end = new Date(period.end).getTime()
-        const logTime = new Date(this.role.time).getTime()
-
-        if (logTime >= start && logTime <= end) {
-          return true
+        for (const period of role5join[this.role.name]) {
+          const start = new Date(period.start).getTime()
+          const end = new Date(period.end).getTime()
+          const logTime = new Date(this.role.time).getTime()
+          
+          if (logTime >= start && logTime <= end) {
+            return true
+          }
         }
+        return false
       }
-      return false
+      return true
     }
-    return true
-  }
 
   /** 渲染数据 */
   randData(data) {

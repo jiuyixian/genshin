@@ -162,18 +162,18 @@ export default class User extends base {
       msg.push(
         '星穹铁道常用功能：',
         '【*uid】当前绑定ck uid列表',
-        '【*删除ck】删除当前绑定ck',
+        '【*我的ck】查看当前绑定ck',
         '【*体力】查询当前开拓力',
         '【*星琼】查看星琼月历',
         '【*星琼统计】星琼统计数据',
-        '【星琼预估】未来星琼数量/抽卡资源',
+        '【*星琼预估】未来星琼数量/抽卡资源',
         '【*练度统计】角色列表数据',
         '【*面板】【*更新面板】面板信息',
         '【*回忆】【*末日】【*虚构】查询三深渊'
       )
       button.push([
         { text: '*uid', callback: '*uid' },
-        { text: '*删除ck', callback: '*删除ck' },
+        { text: '*我的ck', callback: '*我的ck' },
         { text: '*体力', callback: '*体力' }
       ], [
         { text: '*星琼', callback: '*星琼' },
@@ -183,37 +183,46 @@ export default class User extends base {
         { text: '*练度统计', callback: '*练度统计' },
         { text: '*面板', callback: '*面板' },
         { text: '*更新面板', callback: '*更新面板' }
+      ], [
+        { text: '*回忆', callback: '*回忆' },
+        { text: '*末日', callback: '*末日' },
+        { text: '*虚构', callback: '*虚构' }
       ])
     }
     if (mys.hasGame('zzz')) {
       msg.push(
         '绝区零常用功能：',
         '【%uid】当前绑定uid列表',
+        '【%我的ck】查看当前绑定ck',
         '【%体力】查询当前电量',
-        '【%防卫战】查询深渊战况',
         '【%菲林】查看菲林月历',
         '【%菲林统计】菲林统计数据',
+        '【%菲林预估】未来菲林数量/抽卡资源',
         '【%练度统计】角色列表数据',
         '【%面板列表】【%更新面板】面板信息',
         '【%更新抽卡记录】仅更新6月内数据',
         '【%抽卡记录】查看抽卡记录',
+        '【%防卫战】查询深渊战况',
         '【%危局】查看危局战况'
       )
       button.push([
         { text: '%uid', callback: '%uid' },
-        { text: '%体力', callback: '%体力' },
-        { text: '%防卫战', callback: '%防卫战' }
+        { text: '%我的ck', callback: '%我的ck' },      
+        { text: '%体力', callback: '%体力' }
       ], [
         { text: '%菲林', callback: '%菲林' },
         { text: '%菲林统计', callback: '%菲林统计' },
         { text: '%菲林预估', callback: '%菲林预估' }
       ], [
-        { text: '%练度统计', callback: '%练度统计' },
+        { text: '%更新面板', callback: '%更新面板' },
         { text: '%面板列表', callback: '%面板列表' },
-        { text: '%更新面板', callback: '%更新面板' }
+        { text: '%练度统计', callback: '%练度统计' }
       ], [
         { text: '%更新抽卡记录', callback: '%更新抽卡记录' },
         { text: '%抽卡记录', callback: '%抽卡记录' },
+        { text: '%卡片', callback: '%卡片' }
+      ], [
+        { text: '%防卫战', callback: '%防卫战' },
         { text: '%危局', callback: '%危局' }
       ])
     }
