@@ -115,9 +115,9 @@ export class abbrSet extends plugin {
 
     this.save(nameArr)
 
-    gsCfg[this.isSr ? 'sr_nameID' : 'nameID'] = false
+    gsCfg[this.e.isSr ? 'sr_nameID' : 'nameID'] = false
 
-    await this.reply(`设置别名成功：${ret.join('、')}`)
+    await this.reply(`删除${role.name}别名成功：${role.alias}`)
   }
 
   save(data) {

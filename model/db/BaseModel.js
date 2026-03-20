@@ -1,24 +1,23 @@
-import { Sequelize, DataTypes, Model } from 'sequelize'
-import { Data } from '#miao'
+import { Sequelize, DataTypes, Model } from "sequelize"
+import cfg from "../../../../lib/config/config.js"
+import path from "node:path"
+import fs from "node:fs/promises"
 
-Data.createDir('/data/db', 'root')
-let dbPath = process.cwd() + '/data/db/data.db'
+if (cfg.db.dialect === "sqlite") await fs.mkdir(path.dirname(cfg.db.storage), { recursive: true })
+const sequelize = new Sequelize(cfg.db)
 
-// TODO DB自定义
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: dbPath,
-  logging: false
-})
-
-await sequelize.authenticate()
+try {
+  await sequelize.authenticate()
+} catch (err) {
+  logger.error("数据库认证错误", err)
+}
 
 export default class BaseModel extends Model {
   static Types = DataTypes
 
-  static initDB (model, columns) {
+  static initDB(model, columns) {
     let name = model.name
-    name = name.replace(/DB$/, 's')
+    name = name.replace(/DB$/, "s")
     model.init(columns, { sequelize, tableName: name })
     model.COLUMNS = columns
   }

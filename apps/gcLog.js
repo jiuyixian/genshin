@@ -23,7 +23,7 @@ export class gcLog extends plugin {
           fnc: "logJson"
         },
         {
-          reg: "^#?(原神|星铁)?(全部)?(抽卡|抽奖|角色|武器|集录|常驻|up|新手|光锥|全部)池*(记录|祈愿|分析)$",
+          reg: "^#?(原神|星铁)?(全部)?(抽卡|抽奖|角色|角色联动|武器|武器联动|集录|常驻|up|新手|光锥|光锥联动|全部)池*(记录|祈愿|分析)$",
           fnc: "getLog"
         },
         {
@@ -56,6 +56,12 @@ export class gcLog extends plugin {
         ], [
           { text: "武器记录", callback: `${this.prefix}武器记录` },
           { text: "武器统计", callback: `${this.prefix}武器统计` },
+        ], [
+            { text: "角色联动记录", callback: `${this.prefix}角色联动记录` },
+            { text: "角色联动统计", callback: `${this.prefix}角色联动统计` },
+        ], [
+            { text: "武器联动记录", callback: `${this.prefix}武器联动记录` },
+            { text: "武器联动统计", callback: `${this.prefix}武器联动统计` },
         ], [
           { text: "集录记录", callback: `${this.prefix}集录记录` },
           { text: "集录统计", callback: `${this.prefix}集录统计` },
@@ -109,7 +115,7 @@ export class gcLog extends plugin {
   /** 导出记录 */
   exportLog() {
     if (this.e.isGroup && !this.e.msg.includes("强制")) {
-      return this.reply("建议私聊(需加好友)导出，若你确认要在此导出，请发送【#强制导出记录】", false, { at: true })
+      return this.reply(`建议私聊(需加好友)导出，若你确认要在此导出，请发送【${this.e.game === 'sr' ? '*' : '#'}强制导出记录】`, false, { at: true })
     }
     if (this.e.msg.includes("v2")) {
       this.e.uigfver = 'v2'
@@ -121,7 +127,7 @@ export class gcLog extends plugin {
 
   logJson() {
     if (this.e.isGroup && !this.e.msg.includes("强制")) {
-      return this.reply("建议私聊(需加好友)导入，若你确认要在此导入，请发送【#强制导入记录】", false, { at: true })
+      return this.reply(`建议私聊(需加好友)导入，若你确认要在此导入，请发送【${this.e.game === 'sr' ? '*' : '#'}强制导入记录】`, false, { at: true })
     }
 
     this.setContext("logJsonFile")
