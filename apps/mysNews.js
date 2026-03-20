@@ -21,7 +21,7 @@ export class mysNews extends plugin {
           fnc: 'news'
         },
         {
-          reg: '^(#米游社|#mys)(.*)',
+          reg: '^#(米游社|mys)搜索(.*)',
           fnc: 'mysSearch'
         },
         {

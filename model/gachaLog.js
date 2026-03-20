@@ -80,7 +80,7 @@ export default class GachaLog extends base {
     }
     MakeMsg.push(`UID：${this.uid} 记录获取成功\n`)
     MakeMsg.push(tmpMsg)
-    MakeMsg.push(`\n UID：${this.uid} 抽卡记录更新完成，您还可回复\n【${this?.e?.isSr ? "*" : "#"}全部记录】统计全部抽卡数据\n【${this?.e?.isSr ? "*光锥" : "#武器"}记录】统计${this?.e?.isSr ? "星铁光锥" : "武器"}池数据\n【${this?.e?.isSr ? "*" : "#"}角色统计】按卡池统计数据\n【${this?.e?.isSr ? "*" : "#"}导出记录】导出记录数据`)
+    MakeMsg.push(`\n UID：${this.uid} 抽卡记录更新完成，您还可回复\n【${this?.e?.isSr ? "*" : "#"}全部记录】统计全部抽卡数据\n【${this?.e?.isSr ? "*光锥" : "#武器"}记录】统计${this?.e?.isSr ? "星铁光锥" : "武器"}池数据\n【${this?.e?.isSr ? "*" : "#"}角色统计】按卡池统计数据\n【${this?.e?.isSr ? "*" : "#"}导出记录】导出记录数据\n\n【#设置全量更新抽卡记录开】用于修复在官方记录有效期内可能发生的数据错误(如出金抽数大于90)`)
     await this.e.reply(MakeMsg)
 
     if (this.fetchFullLog) {
@@ -237,7 +237,7 @@ export default class GachaLog extends base {
     const redisKey = `Yz:settings:fetchFullLog:${this.userId}`
     if (flag) {
       await redis.set(redisKey, 1, { EX: 600 })
-      return this.e.reply("已开启全量更新抽卡记录，在10分钟内您的首次抽卡记录将全量更新，用于修复在官方记录有效期内可能发生的数据错误")
+      return this.e.reply("已开启全量更新抽卡记录,【请发送  #更新抽卡记录 】,在10分钟内您的首次抽卡记录将全量更新,用于修复在官方记录有效期内可能发生的数据错误")
     } else {
       await redis.del(redisKey)
       return this.e.reply("已关闭全量更新抽卡记录")

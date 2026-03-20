@@ -64,7 +64,7 @@ export default class Calculator extends base {
   }
 
   async getSet () {
-    let defSetSkill = this.e.isSr ? '80,80,6,10,10,10'.split(',') : '90,90,10,10,10'.split(',')
+    let defSetSkill = this.e.isSr ? '80,80,6,10,10,10,6,6'.split(',') : '90,90,10,10,10'.split(',')
 
     let set = this.e.msg.replace(/#|＃|星铁|养成|材料/g, '').trim()
 
@@ -73,7 +73,7 @@ export default class Calculator extends base {
     set = set.replace(this.role.alias, '')
 
     let setSkill = []
-    let length = this.e.isSr ? 6 : 5
+    let length = this.e.isSr ? 8 : 5
     if (set) {
       setSkill = set.split(',')
       setSkill = lodash.compact(setSkill)
@@ -91,7 +91,7 @@ export default class Calculator extends base {
     }
 
     /** 检查参数 */
-    let check = this.e.isSr ? [80, 80, 6, 10, 10, 10] : [90, 90, 10, 10, 10]
+    let check = this.e.isSr ? [80, 80, 6, 10, 10, 10, 6, 6] : [90, 90, 10, 10, 10]
     for (const key in check) {
       if (check[key] < Number(setSkill[key])) {
         setSkill[key] = check[key]
@@ -221,7 +221,7 @@ export default class Calculator extends base {
 
     skillList = skillList.filter((item) => item.max_level != 1)
     this.skillList = skillList
-    return this.e.isSr ? body : { items: [body] }
+    return this.e.isSr ? body : { items: [body], lang: "zh-cn", region: this.mysApi.server, uid: this.mysApi.uid }
   }
 
   async getSkillId (roleId) {

@@ -75,6 +75,16 @@ export default class apiTool {
           url: `${hostRecord}game_record/app/genshin/api/role_combat`,
           query: `role_id=${this.uid}&need_detail=true&server=${this.server}`
         },
+        /** 幽境危战 */
+        hard_challenge: {
+          url: `${hostRecord}game_record/app/genshin/api/hard_challenge`,
+          query: `role_id=${this.uid}&server=${this.server}&need_detail=true`
+        },
+        /** 幽境危战增益角色 */
+        hard_challenge_popularity: {
+          url: `${hostRecord}game_record/app/genshin/api/hard_challenge/popularity`,
+          query: `role_id=${this.uid}&server=${this.server}`
+        },
         /** 角色详情 */
         character: {
           url: `${hostRecord}game_record/app/genshin/api/character/list`,
@@ -201,6 +211,21 @@ export default class apiTool {
         spiralAbyss: {
           url: `${hostRecord}game_record/app/hkrpg/api/challenge`,
           query: `role_id=${this.uid}&schedule_type=${data.schedule_type || 1}&server=${this.server}`
+        },
+        /** 虚构叙事 */
+        challengeStory: {
+          url: `${hostRecord}game_record/app/hkrpg/api/challenge_story`,
+          query: `isPrev=&need_all=true&role_id=${this.uid}&schedule_type=${data.schedule_type || 1}&server=${this.server}`
+        },
+        /** 末日幻影 */
+        challengeBoss: {
+          url: `${hostRecord}game_record/app/hkrpg/api/challenge_boss`,
+          query: `isPrev=&need_all=true&role_id=${this.uid}&schedule_type=${data.schedule_type || 1}&server=${this.server}`
+        },
+        /** 异相仲裁 */
+        challengePeak: {
+          url: `${hostRecord}game_record/app/hkrpg/api/challenge_peak`,
+          query: `isPrev=&need_all=true&role_id=${this.uid}&schedule_type=${data.schedule_type || 1}&server=${this.server}`
         },
         /** 角色面板 */
         avatarInfo: {

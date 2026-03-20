@@ -12,7 +12,7 @@ export class gcLog extends plugin {
       name: "抽卡记录",
       dsc: "抽卡记录数据统计",
       event: "message",
-      priority: -114514,
+      priority: 300,
       rule: [
         {
           reg: "(.*)authkey=(.*)",
@@ -27,7 +27,7 @@ export class gcLog extends plugin {
           fnc: "getLog"
         },
         {
-          reg: "^#?(原神|星铁)?(强制)?导出记录(json)?$",
+          reg: "^#?(原神|星铁)?(强制)?导出记录(json)?(v2|v4)?$",
           fnc: "exportLog"
         },
         {
@@ -109,15 +109,19 @@ export class gcLog extends plugin {
   /** 导出记录 */
   exportLog() {
     if (this.e.isGroup && !this.e.msg.includes("强制")) {
-      return this.reply("建议私聊导出，若你确认要在此导出，请发送【#强制导出记录】", false, { at: true })
+      return this.reply("建议私聊(需加好友)导出，若你确认要在此导出，请发送【#强制导出记录】", false, { at: true })
     }
-
+    if (this.e.msg.includes("v2")) {
+      this.e.uigfver = 'v2'
+    }else {
+      this.e.uigfver = 'v4'
+    }
     return new ExportLog(this.e).exportJson()
   }
 
   logJson() {
     if (this.e.isGroup && !this.e.msg.includes("强制")) {
-      return this.reply("建议私聊导入，若你确认要在此导入，请发送【#强制导入记录】", false, { at: true })
+      return this.reply("建议私聊(需加好友)导入，若你确认要在此导入，请发送【#强制导入记录】", false, { at: true })
     }
 
     this.setContext("logJsonFile")
@@ -138,13 +142,13 @@ export class gcLog extends plugin {
     let textMessage1 =
         `最下面有详细方法
 【原神】
-发送【#扫码登录】，米游社扫码，然后 发送 【#更新抽卡记录】，【#更新小助手抽卡记录】 等待即可
+发送【#扫码登录】，米游社扫码，然后 发送 【#更新抽卡记录】，【#更新小助手抽卡记录】 等待，发送  %全部记录，%抽卡记录
 
 【崩坏：星穹铁道】【下方 提供方法指路，是否使用自己判断】
-星铁抽卡记录：不能直接更新记录，需要自己提取
+星铁抽卡记录：不能直接更新记录，需要自己提取。可以使用  手机软件、电脑获取、第三方米哈游启动器  获取链接
 
 【绝区零】
-发送【#扫码登录】，米游社扫码，然后 发送 【%更新抽卡记录】  等待即可
+发送【#扫码登录】，米游社扫码，然后 发送 【%更新抽卡记录】  等待，发送  %抽卡记录
 
 手机软件：
 https://www.wyylkjs.top/HoYoGet/
@@ -154,6 +158,7 @@ https://b.storyo.cn/archives/srlink#cloud-android
 https://feixiaoqiu.com/n/#/xt/gacha_link
 电脑获取:
 https://github.com/biuuu/star-rail-warp-export
+第三方米哈游启动器
 https://github.com/Scighost/Starward
 `;
     let textMessage2 = `    

@@ -226,6 +226,45 @@ export default class User extends base {
         { text: '%危局', callback: '%危局' }
       ])
     }
+    if (mys.hasGame('wd')) {
+      msg.push(
+        '未定事件簿支持：',
+        '【&uid】当前绑定ck uid列表',
+        '【&我的ck】查看当前绑定ck',
+        '【&删除ck】删除当前绑定ck'
+      )
+      button.push([
+        { text: '&uid', callback: '&uid' },
+        { text: '&我的ck', callback: '&我的ck' },
+        { text: '&删除ck', callback: '&删除ck' }
+      ])
+    }
+    if (mys.hasGame('bh3')) {
+      msg.push(
+        '崩坏三支持：',
+        '【!uid】当前绑定ck uid列表',
+        '【!我的ck】查看当前绑定ck',
+        '【!删除ck】删除当前绑定ck'
+      )
+      button.push([
+        { text: '!uid', callback: '!uid' },
+        { text: '!我的ck', callback: '!我的ck' },
+        { text: '!删除ck', callback: '!删除ck' }
+      ])
+    }
+    if (mys.hasGame('bh2')) {
+      msg.push(
+        '崩坏学园2支持：',
+        '【￥uid】当前绑定ck uid列表',
+        '【￥我的ck】查看当前绑定ck',
+        '【￥删除ck】删除当前绑定ck'
+      )
+      button.push([
+        { text: '￥uid', callback: '￥uid' },
+        { text: '￥我的ck', callback: '￥我的ck' },
+        { text: '￥删除ck', callback: '￥删除ck' }
+      ])
+    }
     msg = await common.makeForwardMsg(this.e, [[msg.join('\n'), segment.button(...button)]], '绑定成功：使用命令说明')
     await this.e.reply(msg)
   }

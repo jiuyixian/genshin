@@ -59,7 +59,7 @@ export class calculator extends plugin {
   async Calculator () {
     let role = gsCfg.getRole(this.e.msg, '#|＃|星铁|养成|材料|[0-9]|,|，| ', this.e.isSr)
     if (!role) return false
-
+    this.e.isSr = role.game === "sr"
     if ([10000005, 10000007, 20000000].includes(Number(role.roleId))) {
       await this.e.reply('暂不支持旅行者养成计算')
       return false

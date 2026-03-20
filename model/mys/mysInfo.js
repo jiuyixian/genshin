@@ -37,11 +37,17 @@ export default class MysInfo {
       'blueprint',
       'UserGame',
       'deckList',
+      'act_calendar',
       'avatar_cardList',
       'action_cardList',
       'avatarInfo',
       'role_combat',
-      'characterDetail'
+      'hard_challenge',
+      'hard_challenge_popularity',
+      'characterDetail',
+      'challengeStory',
+      'challengeBoss',
+      'challengePeak'
     ]
 
     this.gtest = false
@@ -155,9 +161,8 @@ export default class MysInfo {
 
     if (!selfUser.hasCk) {
       if (e.noTips !== true) {
-        e.reply(['尚未绑定Cookie', segment.button([
-          { text: 'Cookie帮助', callback: '#Cookie帮助' }
-        ])], false, { at: selfUser.qq })
+e.reply(['尚未绑定Cookie，请发送 #扫码登录', segment.button([
+          { text: '扫码登录', callback: '#扫码登录' }        ])], false, { at: selfUser.qq })
       }
       return false
     }
@@ -397,7 +402,7 @@ export default class MysInfo {
         if (/(登录|login)/i.test(res.message)) {
           if (this.ckInfo.uid) {
             logger.mark(`[ck失效][uid:${this.uid}][qq:${this.userId}]`)
-            if (!isTask) this.e.reply([`UID:${this.ckInfo.uid}，米游社Cookie已失效`, this.mysButton])
+            if (!isTask) this.e.reply([`UID:${this.ckInfo.uid}，米游社Cookie已失效，请发送【#刷新ck】或【扫码登录】`, this.mysButton])
           } else {
             logger.mark(`[公共ck失效][ltuid:${this.ckInfo.ltuid}]`)
             if (!isTask) this.e.reply([`UID:${this.uid}，米游社查询失败，请稍后再试`, this.mysButton])
@@ -443,7 +448,7 @@ export default class MysInfo {
 
         if (!res || res?.retcode == 1034) {
           logger.mark(`[米游社查询失败][uid:${this.uid}][qq:${this.userId}] 遇到验证码`)
-          if (!isTask) this.e.reply([`UID:${this.uid}，米游社查询遇到验证码，请稍后再试`, this.mysButton])
+          if (!isTask) this.e.reply([`UID:${this.uid}，米游社查询遇到验证码\n1. 请尝试 米游社手动签到或打卡\n2. 请发送  #绑定帮助`, this.mysButton])
         }
         break
       case 10307:
