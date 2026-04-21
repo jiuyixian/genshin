@@ -34,7 +34,9 @@ export default class RoleIndex extends base {
       旧日之海: 14,
       纳塔: 15,
       远古圣山: 16,
-      挪德卡莱: 17
+      挪德卡莱: 17,
+      风息山: 18,
+      空之神殿: 19,
     }
 
     this.all_chest = 0
@@ -483,28 +485,28 @@ export default class RoleIndex extends base {
 
     let line = [
       [
-        { lable: "活跃天数", num: stats.active_day_number, extra: `${daysDifference}` },
-        { lable: "深境螺旋", num: stats.spiral_abyss },
+        { lable: '活跃天数', num: stats.active_day_number, extra: `${daysDifference}` },
+        { lable: '深境螺旋', num: stats.spiral_abyss },
         {
-          lable: "幻想真境剧诗",
+          lable: '幻想真境剧诗',
           num: !stats.role_combat.is_unlock
-            ? "未解锁"
+            ? '未解锁'
             : !stats.role_combat.has_detail_data
-              ? "-"
-              : `第${stats.role_combat.max_round_id}幕${stats.role_combat.tarot_finished_cnt > 0 ? ` 圣牌${stats.role_combat.tarot_finished_cnt}` : ""}`,
+              ? '-'
+              : `第${stats.role_combat.max_round_id}幕${stats.role_combat.tarot_finished_cnt > 0 ? ` 圣牌${stats.role_combat.tarot_finished_cnt}` : ''}`,
         },
         {
-          lable: "幽境危战",
+          lable: '幽境危战',
           num: !stats.hard_challenge.is_unlock
-            ? "未解锁"
+            ? '未解锁'
             : !stats.hard_challenge.has_data
-              ? "-"
-              : ["I", "II", "III", "IV", "V", "VI"][stats.hard_challenge.difficulty - 1],
+              ? '-'
+              : ['I', 'II', 'III', 'IV', 'V', 'VI'][stats.hard_challenge.difficulty - 1],
         },
       ],
       [
         { lable: '角色数', num: stats.avatar_number, extra: this.lable.avatar },
-        { lable: "满好感角色", num: stats.full_fetter_avatar_num, extra: stats.avatar_number - 1 },
+        { lable: '满好感角色', num: stats.full_fetter_avatar_num, extra: stats.avatar_number - 1 },
         { lable: '传送点', num: stats.way_point_number, extra: this.lable.way_point },
         { lable: '秘境', num: stats.domain_number, extra: this.lable.domain },
         { lable: '成就', num: stats.achievement_number, extra: this.lable.achievement },
@@ -551,7 +553,7 @@ export default class RoleIndex extends base {
         { lable: '草神瞳', num: stats.dendroculus_number, extra: this.lable.dendroculus },
         { lable: '水神瞳', num: stats.hydroculus_number, extra: this.lable.hydroculus },
         { lable: '火神瞳', num: stats.pyroculus_number, extra: this.lable.pyroculus },
-        { lable: "月神瞳", num: stats.moonoculus_number, extra: this.lable.moonoculus },
+        { lable: '月神瞳', num: stats.moonoculus_number, extra: this.lable.moonoculus },
         { lable: '冰神瞳', num: `${dsz}`, extra: 0 }
       ],
     ]
@@ -606,7 +608,7 @@ export default class RoleIndex extends base {
         }
       }
 
-      if (['雪山', '稻妻', '层岩巨渊', '须弥', '枫丹', '沉玉谷', '纳塔'].includes(val.name)) {
+      if (['雪山', '稻妻', '层岩巨渊', '须弥', '枫丹', '沉玉谷', '纳塔', '空之神殿'].includes(val.name)) {
         if (val.offerings[0].name.includes('流明石')) {
           val.offerings[0].name = '流明石'
         }
@@ -618,6 +620,9 @@ export default class RoleIndex extends base {
         }
         if (val.offerings[0].name.includes('煅石之火')) {
           val.offerings[0].name = '煅石之火'
+        }
+        if (val.offerings[0].name.includes('摹忆中枢')) {
+          val.offerings[0].name = '摹忆中枢'
         }
 
         tmp.line.push({
