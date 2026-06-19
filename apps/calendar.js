@@ -1,6 +1,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import Calendar from '../model/calendar.js'
 import gsCfg from '../model/gsCfg.js'
+import NoteUser from '../model/mys/NoteUser.js'
 
 gsCfg.cpCfg('mys', 'set')
 
@@ -22,11 +23,18 @@ export class calendar extends plugin {
   }
 
   async calendar() {
+    // 检查是否有CK，没有则跳过让其他插件处理
+    const G = Calendar.detectGame(this.e)
+    const user = await NoteUser.create(this.e)
+    const uidList = user.getCkUidList(G === 'zzz' ? 'zzz' : G === 'sr' ? 'sr' : 'gs')
+    if (!uidList || uidList.length === 0) return false
+
     let result = await Calendar.get(this.e)
-    if (!result) return
+    if (!result) return false
 
     let { game, ...data } = result
     data.game = game
+    data.uid = this.e.uid || ''
 
     // 游戏名
     const names = { gs: '原神', sr: '星穹铁道', zzz: '绝区零' }
@@ -36,5 +44,6 @@ export class calendar extends plugin {
     const tpl = 'html/calendar/calendar-' + game
 
     this.reply([await this.renderImg('genshin', tpl, data, { retType: "base64", scale: 2 })])
+    return true
   }
 }
