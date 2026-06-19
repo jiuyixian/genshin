@@ -38,6 +38,8 @@ export default class MysInfo {
       'UserGame',
       'deckList',
       'act_calendar',
+      'gacha_calendar',
+      'activity_calendar',
       'avatar_cardList',
       'action_cardList',
       'avatarInfo',

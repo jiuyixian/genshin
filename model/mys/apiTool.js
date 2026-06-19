@@ -323,6 +323,16 @@ export default class apiTool {
           url: `${hostRecord}event/game_record_zzz/api/zzz/buddy/info`,
           query: `role_id=${this.uid}&server=${this.server}`
         },
+        /** 卡池日历 */
+        gacha_calendar: {
+          url: `${hostRecord}event/game_record_zzz/api/zzz/gacha_calendar`,
+          query: `uid=${this.uid}&region=${this.server}`
+        },
+        /** 活动日历 */
+        activity_calendar: {
+          url: `${hostRecord}event/game_record_zzz/api/zzz/activity_calendar`,
+          query: `uid=${this.uid}&region=${this.server}`
+        },
         /**使用兑换码 目前仅限国际服,来自于国服的uid请求已在mysInfo.js的init方法提前拦截 */
         useCdk: {
           url: 'https://public-operation-nap.hoyolab.com/common/apicdkey/api/webExchangeCdkeyHyl',

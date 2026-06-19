@@ -1,0 +1,231 @@
+@font-face { font-family: "YS"; src: url("../../font/YS.ttf"); }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { font-size: 19px; font-family: "YS", "Microsoft YaHei", sans-serif; transform: scale(2); transform-origin: 0 0; }
+
+.container { width: 900px; min-height: 100px; }
+
+/* ===== 统一底色·原神风格（所有游戏共用） ===== */
+.game-gs .container,
+.game-sr .container,
+.game-zzz .container { background: linear-gradient(180deg, #f5f1eb 0%, #ece3d8 50%, #e8ddd0 100%); }
+
+.game-gs,
+.game-sr,
+.game-zzz { color: #1c1814; }
+
+.game-gs .cal-section-title,
+.game-sr .cal-section-title,
+.game-zzz .cal-section-title { color: #1c1814; }
+
+.game-gs .cal-banner-card,
+.game-sr .cal-banner-card,
+.game-zzz .cal-banner-card { background: #fff; border: 1px solid #d0c8c0; }
+
+.game-gs .cal-banner-name,
+.game-sr .cal-banner-name,
+.game-zzz .cal-banner-name { color: #1c1814; }
+
+.game-gs .cal-banner-dates,
+.game-sr .cal-banner-dates,
+.game-zzz .cal-banner-dates { color: #7a6e5d; }
+
+.game-gs .cal-banner-rem,
+.game-sr .cal-banner-rem,
+.game-zzz .cal-banner-rem { color: #997754; }
+
+.game-gs .cal-event-card,
+.game-sr .cal-event-card,
+.game-zzz .cal-event-card { background: #fff; border: 1px solid #d0c8c0; }
+
+.game-gs .cal-event-name,
+.game-sr .cal-event-name,
+.game-zzz .cal-event-name { color: #1c1814; }
+
+.game-gs .cal-event-dates,
+.game-sr .cal-event-dates,
+.game-zzz .cal-event-dates { color: #7a6e5d; }
+
+.game-gs .cal-reward,
+.game-sr .cal-reward,
+.game-zzz .cal-reward { background: #f8f5f0; }
+
+.game-gs .cal-icon,
+.game-sr .cal-icon,
+.game-zzz .cal-icon { background: #f0eae0; }
+
+.game-gs .cal-item span,
+.game-sr .cal-item span,
+.game-zzz .cal-item span { color: #4a4038; }
+
+.game-gs .cal-ver-tag,
+.game-sr .cal-ver-tag,
+.game-zzz .cal-ver-tag { color: #997754; background: rgba(153,119,84,0.12); }
+
+/* 统一点状装饰 */
+.game-gs .cal-section-dot,
+.game-sr .cal-section-dot,
+.game-zzz .cal-section-dot { background: linear-gradient(180deg, #e7b860, #b8860b); }
+
+.game-gs .event-dot,
+.game-sr .event-dot,
+.game-zzz .event-dot { background: linear-gradient(180deg, #b87fe7, #6b3fa0); }
+
+/* 卡池一行显示（所有游戏统一） */
+.game-gs .cal-banner-card .cal-items-wrap,
+.game-sr .cal-banner-card .cal-items-wrap,
+.game-zzz .cal-banner-card .cal-items-wrap { display: inline-flex; align-items: center; gap: 4px; margin-right: 8px; margin-bottom: 0; vertical-align: middle; }
+
+.game-gs .cal-items-grid,
+.game-sr .cal-items-grid,
+.game-zzz .cal-items-grid { display: flex; flex-wrap: nowrap; gap: 6px; }
+
+.game-gs .cal-rarity-label,
+.game-sr .cal-rarity-label,
+.game-zzz .cal-rarity-label { font-size: 13px; margin-bottom: 0; }
+
+/* 绝区零原有边框颜色覆盖（与原神一致，但保留卡片左侧色以便区分） */
+.game-zzz .cal-banner-card { border-left-color: #b8860b; }
+.game-zzz .cal-banner-card.ended { border-left-color: #555; }
+.game-zzz .cal-banner-card.upcoming { border-left-color: #4a90d9; }
+.game-zzz .cal-event-card { border-left-color: #6b3fa0; }
+.game-zzz .cal-event-card.ended { border-left-color: #444; }
+.game-zzz .cal-event-card.upcoming { border-left-color: #4a90d9; }
+
+/* ===== 头部 ===== */
+.cal-header { position: relative; padding: 22px 18px 14px; overflow: hidden; color: #fff; background: #ffefd22b; }
+.cal-header-gs,
+.cal-header-sr,
+.cal-header-zzz { background: #ffefd22b; }
+.cal-title { font-size: 23px; font-weight: bold; position: relative; }
+.cal-subtitle { font-size: 15px; color: rgba(255,255,255,0.65); margin-top: 2px; position: relative; }
+.cal-header-inner { display: flex; align-items: flex-start; justify-content: space-between; padding: 16px 18px; position: relative; z-index: 1; background: #fff; border-radius: 8px; border: 1px solid #d0c8c0; }
+.cal-header-text { display: flex; flex-direction: column; line-height: 1.2; font-size: 20px; font-weight: bold; color: #1c1814; align-self: center; text-shadow: none; }
+.cal-header-gv { flex: 1; text-align: center; font-size: 22px; font-weight: bold; color: #1c1814; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; align-self: center; text-shadow: none; }
+.cal-header-game { font-size: 40px; }
+.cal-header-version { font-weight: normal; font-size: 30px; opacity: 0.8; }
+.cal-header-time { align-self: flex-end; text-align: right; }
+.cal-header-time .cal-update { font-size: 13px; color: #7a6e5d; margin-top: 0; }
+.cal-header-icon { width: 90px; height: 90px; object-fit: contain; margin-top: 1px; padding: 1px; align-self: flex-end; border-radius: 25px; overflow: hidden; background: #f0eae0; }
+.cal-header-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+/* ===== 区块 ===== */
+.cal-section { padding: 14px 12px 8px; }
+.cal-section-title { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: bold; padding-left: 4px; margin-bottom: 12px; }
+.cal-section-dot { width: 4px; height: 18px; border-radius: 2px; }
+
+/* ===== 两列网格 ===== */
+.cal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 8px 10px 4px; background: #ffefd22b; }
+.cal-col { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.cal-col .cal-section { padding: 0; }
+.cal-col .cal-section-title { font-size: 17px; margin-bottom: 10px; }
+.cal-col:empty { display: none; }
+.cal-col-banners:empty + .cal-col-events { grid-column: 1 / -1; }
+.cal-col-events:empty { display: none; }
+
+/* ===== 卡池卡片 ===== */
+.cal-banner-card { border-radius: 8px; padding: 12px 12px; border-left: 3px solid #b8860b; margin-bottom: 10px; }
+.cal-banner-card.ended { opacity: 0.55; border-left-color: #555; }
+.cal-banner-card.upcoming { border-left-color: #4a90d9; }
+.cal-banner-header { margin-bottom: 8px; }
+.cal-banner-title-row { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 3px; }
+.cal-banner-name { font-size: 16px; font-weight: bold; flex: 1; }
+.cal-banner-dates { font-size: 12px; margin-bottom: 2px; }
+.cal-banner-rem { font-size: 12px; }
+.cal-banner-status { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 2px 10px; border-radius: 8px; flex-shrink: 0; }
+.cal-banner-status.ongoing { background: rgba(46,204,113,0.18); color: #2ecc71; }
+.cal-banner-status.upcoming { background: rgba(74,144,217,0.18); color: #4a90d9; }
+.cal-banner-status.ended { background: rgba(255,255,255,0.06); color: #888; }
+.cal-status-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+.ongoing .cal-status-dot { background: #2ecc71; }
+.upcoming .cal-status-dot { background: #4a90d9; }
+.ended .cal-status-dot { background: #888; }
+.game-gs .cal-banner-status.ended { color: #777; }
+.game-gs .ended .cal-status-dot { background: #777; }
+
+/* 稀有度标签 */
+.cal-rarity-label { display: inline-block; font-size: 12px; font-weight: bold; padding: 2px 8px; border-radius: 3px; margin-bottom: 4px; }
+.r5 { color: #daa520; background: rgba(218,165,32,0.15); }
+.r4 { color: #b07fd6; background: rgba(176,127,214,0.15); }
+.game-gs .r5 { color: #997754; background: rgba(153,119,84,0.12); }
+.game-gs .r4 { color: #9b59b6; background: rgba(155,89,182,0.12); }
+
+/* ===== 图标网格（原grid保留，但被flex覆盖，此处保留以防其他用途） ===== */
+.cal-items-wrap { margin-bottom: 4px; }
+.cal-items-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px 8px; }
+.cal-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.cal-icon { width: 48px; height: 48px; border-radius: 8px; overflow: hidden; position: relative; }
+.cal-icon img { width: 100%; height: 100%; object-fit: cover; }
+.s5-border { border: 2px solid rgba(184,134,11,0.5); }
+.s4-border { border: 2px solid rgba(155,89,182,0.4); }
+.cal-item span { font-size: 11px; text-align: center; max-width: 56px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.2; }
+
+/* SR 版本标签 */
+.cal-ver-tag { font-size: 12px; padding: 1px 8px; border-radius: 3px; white-space: nowrap; font-weight: bold; }
+
+/* SR/ZZZ 图标行 */
+.cal-icon-row { display: flex; gap: 6px; flex-wrap: wrap; padding: 6px 0; }
+.cal-icon-row.s5 .cal-icon-item { width: 44px; height: 44px; border-radius: 8px; border: 2px solid rgba(219,194,145,0.6); overflow: hidden; background: rgba(255,255,255,0.10); }
+.cal-icon-row.s4 .cal-icon-item { width: 40px; height: 40px; border-radius: 6px; border: 2px solid rgba(176,127,214,0.5); overflow: hidden; background: rgba(255,255,255,0.10); }
+.cal-icon-row.s5w .cal-icon-item { width: 44px; height: 44px; border-radius: 8px; border: 2px solid rgba(219,194,145,0.6); overflow: hidden; background: rgba(255,255,255,0.10); }
+.cal-icon-row.s4w .cal-icon-item { width: 40px; height: 40px; border-radius: 6px; border: 2px solid rgba(176,127,214,0.5); overflow: hidden; background: rgba(255,255,255,0.10); }
+.cal-icon-item img { width: 100%; height: 100%; object-fit: cover; }
+
+/* 元素色边框 */
+.cal-el-pyro { border-color: #ff6640 !important; }
+.cal-el-hydro { border-color: #00c0ff !important; }
+.cal-el-anemo { border-color: #33d7a0 !important; }
+.cal-el-electro { border-color: #cc80ff !important; }
+.cal-el-dendro { border-color: #90cc00 !important; }
+.cal-el-cryo { border-color: #7af2f2 !important; }
+.cal-el-geo { border-color: #ffb00d !important; }
+.cal-el-fire { border-color: #ff6640 !important; }
+.cal-el-ice { border-color: #7af2f2 !important; }
+.cal-el-wind { border-color: #33d7a0 !important; }
+.cal-el-lightning { border-color: #cc80ff !important; }
+.cal-el-physical { border-color: #bbb !important; }
+.cal-el-imaginary { border-color: #ffe070 !important; }
+.cal-el-quantum { border-color: #6b5ce7 !important; }
+.cal-el-ether { border-color: #ff6b9d !important; }
+
+/* ===== 活动列表 ===== */
+.cal-event-card { border-radius: 8px; padding: 10px 12px; border-left: 3px solid #6b3fa0; margin-bottom: 8px; }
+.cal-event-card.ended { opacity: 0.5; border-left-color: #444; }
+.cal-event-card.upcoming { border-left-color: #4a90d9; }
+.cal-event-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.cal-event-status { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 1px 8px; border-radius: 6px; }
+.cal-event-status.ongoing { background: rgba(46,204,113,0.18); color: #2ecc71; }
+.cal-event-status.upcoming { background: rgba(74,144,217,0.18); color: #4a90d9; }
+.cal-event-status.ended { background: rgba(255,255,255,0.06); color: #888; }
+.game-gs .cal-event-status.ended { color: #777; }
+.cal-event-rem { font-size: 12px; font-weight: bold; }
+.game-gs .cal-event-rem { color: #997754; }
+.game-sr .cal-event-rem { color: #997754; }
+.game-zzz .cal-event-rem { color: #997754; }
+.cal-event-name { font-size: 15px; font-weight: bold; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.cal-badge { font-size: 12px; color: #fff; padding: 1px 8px; border-radius: 4px; white-space: nowrap; }
+.badge-gold { background: linear-gradient(135deg, #b8860b, #daa520); }
+.badge-purple { background: linear-gradient(135deg, #6b3fa0, #9b59b6); }
+.badge-red { background: linear-gradient(135deg, #c0392b, #e74c3c); }
+.badge-sr.ongoing { background: linear-gradient(135deg, #b8860b, #daa520); }
+.badge-sr.upcoming { background: linear-gradient(135deg, #2980b9, #3498db); }
+.badge-sr.ended { background: linear-gradient(135deg, #666, #888); }
+.cal-event-rewards { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
+.cal-reward { display: flex; align-items: center; gap: 2px; border-radius: 4px; padding: 2px 6px; }
+.cal-reward img { width: 18px; height: 18px; object-fit: contain; }
+.cal-reward span { font-size: 12px; font-weight: bold; }
+.game-gs .cal-reward span { color: #997754; }
+.game-sr .cal-reward span { color: #997754; }
+.game-zzz .cal-reward span { color: #997754; }
+.cal-event-dates { font-size: 11px; }
+.game-gs .cal-event-dates { color: #7a6e5d; }
+.game-sr .cal-event-dates { color: #7a6e5d; }
+.game-zzz .cal-event-dates { color: #7a6e5d; }
+.copyright { font-size: 12px; text-align: center; padding: 6px; color: #999; }
+
+/* ===== 响应式微调 ===== */
+@media (max-width: 500px) {
+  .cal-grid { grid-template-columns: 1fr; gap: 12px; }
+  .cal-col-banners:empty + .cal-col-events { grid-column: 1; }
+}

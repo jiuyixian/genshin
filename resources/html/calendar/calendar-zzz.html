@@ -1,0 +1,169 @@
+{{extend defaultLayout}}
+
+{{block 'css'}}
+<link rel="stylesheet" type="text/css" href="{{_res_path}}html/calendar/calendar.css" />
+{{/block}}
+
+{{block 'main'}}
+<div class="cal-container game-zzz">
+    <div class="cal-header cal-header-zzz">
+
+        <div class="cal-header-inner">
+            <!-- 活动日历（两行） -->
+            <div class="cal-header-text">
+                活动<br>
+                日历
+            </div>
+            <!-- 游戏名 + 版本号 -->
+            <div class="cal-header-gv">
+                <span class="cal-header-game">绝区零</span>
+                <span class="cal-header-version">{{version}}</span>
+            </div>
+            <!-- 更新时间 -->
+            <div class="cal-header-time">
+                <div class="cal-update">更新于 {{updateTime}}</div>
+            </div>
+            <!-- 图标 -->
+            <div class="cal-header-icon">
+                <img
+                    src="https://fastcdn.mihoyo.com/static-resource-v2/2025/07/09/42f5266ac636e9341439731c5e003c15_4896482194300496298.png">
+            </div>
+        </div>
+    </div>
+
+    <div class="cal-grid">
+        <!-- ===== 左列：卡池 ===== -->
+        <div class="cal-col cal-col-banners">
+            {{if bannerCount > 0}}
+            <div class="cal-section cal-section-banners">
+                <div class="cal-section-title">
+                    <div class="cal-section-dot"></div><span>调频卡池</span>
+                </div>
+                {{each charBanners banner}}
+                <div class="cal-banner-card {{banner.statusClass}}">
+                    <div class="cal-banner-header">
+                        <div class="cal-banner-title-row">
+                            <div class="cal-banner-name">{{banner.name}}</div>
+                            <div class="cal-banner-status {{banner.statusClass}}"><span
+                                    class="cal-status-dot"></span>{{banner.status}}</div>
+                        </div>
+                        {{if banner.startTime}}
+                        <div class="cal-banner-dates">{{banner.startTime}} ~ {{banner.endTime}}</div>
+                        {{/if}}
+                        {{if banner.remaining && banner.remaining !== '已结束'}}
+                        <div class="cal-banner-rem">剩余 {{banner.remaining}}</div>
+                        {{/if}}
+                    </div>
+                    {{if banner.fiveStars.length > 0}}
+                    <div class="cal-items-wrap">
+                        <span class="cal-rarity-label r5">S</span>
+                        <div class="cal-items-grid">
+                            {{each banner.fiveStars ch}}
+                            <div class="cal-item">
+                                <div class="cal-icon {{ch.element ? 'cal-el-' + ch.element : ''}} s5-border"><img
+                                        src="{{ch.icon}}" alt="{{ch.name}}" onerror="this.style.opacity='0'" /></div>
+                                <span>{{ch.name}}</span>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if banner.fourStars.length > 0}}
+                    <div class="cal-items-wrap">
+                        <span class="cal-rarity-label r4">A</span>
+                        <div class="cal-items-grid">
+                            {{each banner.fourStars ch}}
+                            <div class="cal-item">
+                                <div class="cal-icon {{ch.element ? 'cal-el-' + ch.element : ''}} s4-border"><img
+                                        src="{{ch.icon}}" alt="{{ch.name}}" onerror="this.style.opacity='0'" /></div>
+                                <span>{{ch.name}}</span>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/if}}
+                </div>
+                {{/each}}
+                {{each weaponBanners banner}}
+                <div class="cal-banner-card {{banner.statusClass}}" style="margin-top:8px">
+                    <div class="cal-banner-header">
+                        <div class="cal-banner-title-row">
+                            <div class="cal-banner-name">{{banner.name}}</div>
+                            <div class="cal-banner-status {{banner.statusClass}}"><span
+                                    class="cal-status-dot"></span>{{banner.status}}</div>
+                        </div>
+                        {{if banner.startTime}}
+                        <div class="cal-banner-dates">{{banner.startTime}} ~ {{banner.endTime}}</div>
+                        {{/if}}
+                        {{if banner.remaining && banner.remaining !== '已结束'}}
+                        <div class="cal-banner-rem">剩余 {{banner.remaining}}</div>
+                        {{/if}}
+                    </div>
+                    {{if banner.fiveWeapons.length > 0}}
+                    <div class="cal-items-wrap">
+                        <span class="cal-rarity-label r5">S</span>
+                        <div class="cal-items-grid">
+                            {{each banner.fiveWeapons w}}
+                            <div class="cal-item">
+                                <div class="cal-icon s5-border"><img src="{{w.icon}}" alt="{{w.name}}"
+                                        onerror="this.style.opacity='0'" /></div><span>{{w.name}}</span>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if banner.fourWeapons.length > 0}}
+                    <div class="cal-items-wrap">
+                        <span class="cal-rarity-label r4">A</span>
+                        <div class="cal-items-grid">
+                            {{each banner.fourWeapons w}}
+                            <div class="cal-item">
+                                <div class="cal-icon s4-border"><img src="{{w.icon}}" alt="{{w.name}}"
+                                        onerror="this.style.opacity='0'" /></div><span>{{w.name}}</span>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/if}}
+                </div>
+                {{/each}}
+            </div>
+            {{/if}}
+        </div>
+
+        <!-- ===== 右列：活动 ===== -->
+        <div class="cal-col cal-col-events">
+            {{if eventCount > 0}}
+            <div class="cal-section cal-section-events">
+                <div class="cal-section-title">
+                    <div class="cal-section-dot event-dot"></div><span>活动一览</span>
+                </div>
+                {{each allEvents evt}}
+                <div class="cal-event-card {{evt.statusClass}}">
+                    <div class="cal-event-header">
+                        <div class="cal-event-status {{evt.statusClass}}"><span
+                                class="cal-status-dot"></span>{{evt.status}}</div>
+                        {{if evt.remaining && evt.remaining !== '已结束' && evt.on}}
+                        <span class="cal-event-rem">剩余 {{evt.remaining}}</span>
+                        {{/if}}
+                    </div>
+                    <div class="cal-event-name">{{evt.name}}</div>
+                    {{if evt.rewards.length > 0}}
+                    <div class="cal-event-rewards">
+                        {{each evt.rewards r}}
+                        <div class="cal-reward"><img src="{{r.icon}}"
+                                onerror="this.style.display='none'" /><span>×{{r.num}}</span></div>
+                        {{/each}}
+                    </div>
+                    {{/if}}
+                    {{if evt.startTime}}
+                    <div class="cal-event-dates">{{evt.startTime}} ~ {{evt.endTime}}</div>
+                    {{/if}}
+                </div>
+                {{/each}}
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</div>
+{{/block}}
