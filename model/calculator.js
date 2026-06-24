@@ -15,14 +15,11 @@ export default class Calculator extends base {
     this.role = role
     /** 获取绑定uid */
     let uid = await MysInfo.getUid(this.e)
-    if (!uid) return false
+    if (!uid) return
 
     /** 判断是否绑定了ck */
     let ck = await MysInfo.checkUidBing(uid, this.e)
-    if (!ck) {
-      await this.e.reply(MysInfo.tips)
-      return false
-    }
+    if (!ck) return
 
     this.mysApi = new MysApi(uid, ck.ck, { log: true })
 

@@ -1,6 +1,16 @@
 import MysInfo from './mys/mysInfo.js'
 
 const _path = process.cwd().replace(/\\/g, '/')
+const miaores = `${_path}/plugins/miao-plugin/resources/stat/imgs/hard`
+// 幽境危战 难度图标 (difficulty 1-6)
+const HC_DIFF_ICONS = {
+  1: `${miaores}/medal_1.png`,
+  2: `${miaores}/medal_2.png`,
+  3: `${miaores}/medal_3.png`,
+  4: `${miaores}/medal_4.png`,
+  5: `${miaores}/medal_5.png`,
+  6: `${miaores}/medal_6.png`,
+}
 
 export default class Calendar {
   static detectGame(e) {
@@ -109,7 +119,7 @@ function W(v, cb, wb, mb, ev) {
     hasMixed: mb.length > 0, allEvents: ev, eventCount: ev.length,
     bannerCount: cb.length + wb.length + mb.length,
     updateTime: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }),
-    _res_path: `${_path}/plugins/genshin/resources/`
+    miaores: `${_path}/plugins/miao-plugin/resources/stat/imgs/hard`
   }
 }
 
@@ -117,9 +127,14 @@ function B(name, version, st, et, n, A, W) {
   const f5 = A.filter(a => a.rarity === 5), f4 = A.filter(a => a.rarity === 4)
   const w5 = W.filter(w => w.rarity === 5), w4 = W.filter(w => w.rarity === 4)
   const on = et && st && st <= n && et > n, up = st && st > n
+  const rInfo = remInfo(st, et, n)
   return { name, version, startTime: fmt(st), endTime: fmt(et), on, up,
     fiveStars: f5, fourStars: f4, fiveWeapons: w5, fourWeapons: w4,
-    remaining: rem(st, et),
+    remaining: rInfo.text,
+    remainingDays: rInfo.days,
+    remainingUrgent: rInfo.urgent,
+    remainingType: rInfo.type,
+    remText: rInfo.type === 'ongoing' ? `剩余 ${rInfo.text} 结束` : rInfo.type === 'upcoming' ? `${rInfo.text} 后开启` : '',
     status: on ? '进行中' : up ? '即将开启' : '已结束',
     statusClass: on ? 'ongoing' : up ? 'upcoming' : 'ended',
     hasChars: f5.length + f4.length > 0, hasWeapons: w5.length + w4.length > 0 }
@@ -132,16 +147,36 @@ function E(name, st, et, n, Rs, tower, rc, hc, showText, cp, tp, actSc) {
   const on = et && st && (actSc === 1 || actSc === 2 || (actSc == null && inRange)) ? inRange : false
   const up = st && (actSc === 0 || (actSc == null && st > n))
   const drawEnded = !on && !up
+  const rInfo = remInfo(st, et, n)
+  const hcDetail = hc ? { ...hc, diffIcon: HC_DIFF_ICONS[hc.difficulty] || '' } : null
   return { name, on, up, startTime: fmt(st), endTime: fmt(et), rewards: Rs || [],
-    remaining: rem(st, et),
+    remaining: rInfo.text,
+    remainingDays: rInfo.days,
+    remainingUrgent: rInfo.urgent,
+    remainingType: rInfo.type,
+    remText: rInfo.type === 'ongoing' ? `剩余 ${rInfo.text} 结束` : rInfo.type === 'upcoming' ? `${rInfo.text} 后开启` : '',
     status: on ? '进行中' : up ? '即将开启' : drawEnded ? '已结束' : '进行中',
     statusClass: on ? 'ongoing' : up ? 'upcoming' : drawEnded ? 'ended' : 'ongoing',
-    towerDetail: tower || null, roleCombatDetail: rc || null, hardChallengeDetail: hc || null,
+    towerDetail: tower || null, roleCombatDetail: rc || null, hardChallengeDetail: hcDetail || null,
     showText: showText || '', curProg: cp != null ? cp : -1, totalProg: tp != null ? tp : -1 }
 }
 
 // ======= 工具 =======
 function dt(v, sZ) { if (!v) return null; const n = +v; return (!n || (sZ && n === 0)) ? null : new Date(n * 1000) }
 function fmt(d) { if (!d) return ''; const p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}/${p(d.getMonth() + 1)}/${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}` }
-function rem(s, e) { if (!e) return ''; const ms = Math.max(0, e - Date.now()); if (ms <= 0) return '已结束'; const d = Math.floor(ms / 86400000), h = Math.floor((ms % 86400000) / 3600000), m = Math.floor((ms % 3600000) / 60000); const p = []; if (d > 0) p.push(`${d}天`); if (h > 0) p.push(`${h}时`); if (m > 0 || p.length === 0) p.push(`${m}分`); return p.join('') }
+function remInfo(s, e, n) {
+  if (!e) return { text: '已结束', ms: 0, days: 0, urgent: false, type: 'ended' }
+  const ongoing = !s || s <= n
+  const target = ongoing ? e : s
+  const ms = target - n
+  if (ms <= 0) return { text: '已结束', ms: 0, days: 0, urgent: false, type: 'ended' }
+  const d = Math.floor(ms / 86400000), h = Math.floor((ms % 86400000) / 3600000), m = Math.floor((ms % 3600000) / 60000)
+  const p = []
+  if (d > 0) p.push(`${d}天`)
+  if (h > 0) p.push(`${h}时`)
+  if (m > 0 || p.length === 0) p.push(`${m}分`)
+  const duration = p.join('')
+  const type = ongoing ? 'ongoing' : 'upcoming'
+  return { text: duration, ms, days: d, urgent: type === 'ongoing' && d < 5, type }
+}
 function zE(t) { const m = { 200: 'physical', 201: 'fire', 202: 'ice', 203: 'electro', 204: 'wind', 205: 'ether' }; return m[t] || '' }

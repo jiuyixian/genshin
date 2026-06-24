@@ -1,6 +1,22 @@
 ### Yunzai Genshin Plugin
 # Fork自用
 
+新增功能
+<details>
+<summary>支持锅巴配置通知群，需修改文件</summary>
+Guoba-Plugin\server\service\v3\system\PluginService.js 第 11 行
+
+```sh
+this.exclude = [
+  'example',
+  'genshin',    // ← 这里！genshin 被排除了，注释或删除 重启
+  'other',
+  'system',
+]
+```
+</details> 
+<br/>
+
 | 米游社查询指令 | 说明|
 | :---------------- | --------------- |
 |#角色|米游社角色数据查询|

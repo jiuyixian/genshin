@@ -204,6 +204,8 @@ body { font-size: 19px; font-family: "YS", "Microsoft YaHei", sans-serif; transf
 .game-gs .cal-event-rem { color: #997754; }
 .game-sr .cal-event-rem { color: #997754; }
 .game-zzz .cal-event-rem { color: #997754; }
+.cal-banner-rem.urgent,
+.cal-event-rem.urgent { color: #e74c3c !important; }
 .cal-event-name { font-size: 15px; font-weight: bold; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .cal-badge { font-size: 12px; color: #fff; padding: 1px 8px; border-radius: 4px; white-space: nowrap; }
 .badge-gold { background: linear-gradient(135deg, #b8860b, #daa520); }
@@ -212,6 +214,7 @@ body { font-size: 19px; font-family: "YS", "Microsoft YaHei", sans-serif; transf
 .badge-sr.ongoing { background: linear-gradient(135deg, #b8860b, #daa520); }
 .badge-sr.upcoming { background: linear-gradient(135deg, #2980b9, #3498db); }
 .badge-sr.ended { background: linear-gradient(135deg, #666, #888); }
+.cal-diff-icon { width: 25px; height: 25px; vertical-align: middle; margin-right: 2px; }
 .cal-event-rewards { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
 .cal-reward { display: flex; align-items: center; gap: 2px; border-radius: 4px; padding: 2px 6px; }
 .cal-reward img { width: 18px; height: 18px; object-fit: contain; }
