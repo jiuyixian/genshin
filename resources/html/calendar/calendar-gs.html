@@ -164,6 +164,56 @@
                 </div>
                 {{/each}}
 
+                {{each mixedBanners banner}}
+                <div class="cal-banner-card {{banner.statusClass}}" style="margin-top:8px">
+                    <div class="cal-banner-header">
+                        <div class="cal-banner-title-row">
+                            <span class="cal-ver-tag">集录</span>
+                            <div class="cal-banner-name">{{banner.name}}</div>
+                            {{if banner.remText}}
+                            <div class="cal-banner-rem {{banner.remainingUrgent ? 'urgent' : ''}}">{{banner.remText}}</div>
+                            {{/if}}
+                            <div class="cal-banner-status {{banner.statusClass}}">
+                                <span class="cal-status-dot"></span>{{banner.status}}
+                            </div>
+                        </div>
+                        {{if banner.startTime}}
+                        <div class="cal-banner-dates">{{banner.startTime}} ~ {{banner.endTime}}</div>
+                        {{/if}}
+                    </div>
+                    {{if banner.fiveStars.length > 0}}
+                    <div class="cal-items-wrap">
+                        <span class="cal-rarity-label r5">五星</span>
+                        <div class="cal-items-grid">
+                            {{each banner.fiveStars ch}}
+                            <div class="cal-item">
+                                <div class="cal-icon {{ch.element ? 'cal-el-' + ch.element : ''}} s5-border">
+                                    <img src="{{ch.icon}}" alt="{{ch.name}}" onerror="this.style.opacity='0'" />
+                                </div>
+                                <span>{{ch.name}}</span>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if banner.fiveWeapons.length > 0}}
+                    <div class="cal-items-wrap">
+                        <span class="cal-rarity-label r5">五星</span>
+                        <div class="cal-items-grid">
+                            {{each banner.fiveWeapons w}}
+                            <div class="cal-item">
+                                <div class="cal-icon s5-border">
+                                    <img src="{{w.icon}}" alt="{{w.name}}" onerror="this.style.opacity='0'" />
+                                </div>
+                                <span>{{w.name}}</span>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/if}}
+                </div>
+                {{/each}}
+
             </div>
             {{/if}}
         </div>

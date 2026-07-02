@@ -46,17 +46,21 @@ export default class Calendar {
     return W(d.avatar_card_pool_list?.[0]?.version_name || '',
       (d.avatar_card_pool_list || []).map(b => B(b.pool_name || '', b.version_name || '', dt(b.start_timestamp), dt(b.end_timestamp), n,
         (b.avatars || []).map(a => ({ name: a.name, icon: a.icon, rarity: a.rarity, element: a.element })),
-        (b.weapon || []).map(w => ({ name: w.name, icon: w.icon, rarity: typeof w.rarity === 'number' ? w.rarity : 5 })))),
+        (b.weapon || []).map(w => ({ name: w.name, icon: w.icon, rarity: typeof w.rarity === 'number' ? w.rarity : 5 })),
+        b.pool_status)),
       (d.weapon_card_pool_list || []).map(b => B(b.pool_name || '', b.version_name || '', dt(b.start_timestamp), dt(b.end_timestamp), n,
         (b.avatars || []).map(a => ({ name: a.name, icon: a.icon, rarity: a.rarity, element: a.element })),
-        (b.weapon || []).map(w => ({ name: w.name, icon: w.icon, rarity: typeof w.rarity === 'number' ? w.rarity : 5 })))),
+        (b.weapon || []).map(w => ({ name: w.name, icon: w.icon, rarity: typeof w.rarity === 'number' ? w.rarity : 5 })),
+        b.pool_status)),
       (d.mixed_card_pool_list || []).map(b => B(b.pool_name || '', b.version_name || '', dt(b.start_timestamp), dt(b.end_timestamp), n,
         (b.avatars || []).map(a => ({ name: a.name, icon: a.icon, rarity: a.rarity, element: a.element })),
-        (b.weapon || []).map(w => ({ name: w.name, icon: w.icon, rarity: typeof w.rarity === 'number' ? w.rarity : 5 })))),
+        (b.weapon || []).map(w => ({ name: w.name, icon: w.icon, rarity: typeof w.rarity === 'number' ? w.rarity : 5 })),
+        b.pool_status)),
       [...(d.act_list || []), ...(d.fixed_act_list || [])].map(e => {
         const s = dt(e.start_timestamp, 1), ed = dt(e.end_timestamp, 1)
         return E(e.name, s, ed, n, (e.reward_list || []).filter(r => r.homepage_show).map(r => ({ name: r.name, icon: r.icon, num: r.num })),
-          e.tower_detail || null, e.role_combat_detail || null, e.hard_challenge_detail || null)
+          e.tower_detail || null, e.role_combat_detail || null, e.hard_challenge_detail || null,
+          undefined, undefined, undefined, undefined, e.status)
       })
     )
   }
@@ -123,10 +127,16 @@ function W(v, cb, wb, mb, ev) {
   }
 }
 
-function B(name, version, st, et, n, A, W) {
+function B(name, version, st, et, n, A, W, ps) {
   const f5 = A.filter(a => a.rarity === 5), f4 = A.filter(a => a.rarity === 4)
   const w5 = W.filter(w => w.rarity === 5), w4 = W.filter(w => w.rarity === 4)
-  const on = et && st && st <= n && et > n, up = st && st > n
+  // pool_status: 2=进行中, 1=即将开启, 0=已结束; 未传则用时间推算
+  let on, up
+  if (ps != null) {
+    on = ps === 2; up = ps === 1
+  } else {
+    on = et && st && st <= n && et > n; up = st && st > n
+  }
   const rInfo = remInfo(st, et, n)
   return { name, version, startTime: fmt(st), endTime: fmt(et), on, up,
     fiveStars: f5, fourStars: f4, fiveWeapons: w5, fourWeapons: w4,
@@ -140,12 +150,18 @@ function B(name, version, st, et, n, A, W) {
     hasChars: f5.length + f4.length > 0, hasWeapons: w5.length + w4.length > 0 }
 }
 
-function E(name, st, et, n, Rs, tower, rc, hc, showText, cp, tp, actSc) {
-  const inRange = et && st && st <= n && et > n
-  // actSc: 1=进行中, 0=未开启, 2=已标记完成(如签到完成)
-  // actSc=2 时如果时间仍在范围内 → 进行中; 只有时间也过了才 → 已结束
-  const on = et && st && (actSc === 1 || actSc === 2 || (actSc == null && inRange)) ? inRange : false
-  const up = st && (actSc === 0 || (actSc == null && st > n))
+function E(name, st, et, n, Rs, tower, rc, hc, showText, cp, tp, actSc, gsStatus) {
+  let on, up
+  // gsStatus (原神活动): 2=进行中, 1=即将开启, 0=已结束 → 优先使用
+  if (gsStatus != null) {
+    on = gsStatus === 2; up = gsStatus === 1
+  } else {
+    const inRange = et && st && st <= n && et > n
+    // actSc: 1=进行中, 0=未开启, 2=已标记完成(如签到完成)
+    // actSc=2 时如果时间仍在范围内 → 进行中; 只有时间也过了才 → 已结束
+    on = et && st && (actSc === 1 || actSc === 2 || (actSc == null && inRange)) ? inRange : false
+    up = st && (actSc === 0 || (actSc == null && st > n))
+  }
   const drawEnded = !on && !up
   const rInfo = remInfo(st, et, n)
   const hcDetail = hc ? { ...hc, diffIcon: HC_DIFF_ICONS[hc.difficulty] || '' } : null
