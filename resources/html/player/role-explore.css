@@ -253,4 +253,393 @@ body {
   text-align: center;
   color: #7994a7;
 }
+
+/* 新版探索度 - 米游社世界卡片风格 */
+/* 外层白卡，与 explor_box / basicInfo 等区块保持一致 */
+.world_box {
+  position: relative;
+  border-radius: 15px;
+  margin-top: 20px;
+  margin-bottom: 12px;
+  background: #fff;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+  padding: 15px;
+}
+
+.world-card {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+/* 卡片背景层 */
+.world-bgs {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.world-bgs .gradient {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  opacity: 0.15;
+}
+
+.world-bgs .image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.world-bgs .border {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  z-index: 4;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+}
+
+/* 卡片主体：logo + 名称 + 等级 */
+.card-main-container {
+  position: relative;
+  z-index: 10;
+  padding: 15px 20px 10px 20px;
+  display: flex;
+  align-items: center;
+}
+
+.card-main-container .card-logo {
+  flex-shrink: 0;
+  display: block;
+  width: 70px;
+  height: 70px;
+}
+
+.card-main-container .card-header {
+  flex: 1;
+  margin-left: 5px;
+}
+
+.card-name-wrapper > p {
+  color: #fff;
+  font-family: tttgbnumber, "PingFang SC", sans-serif;
+  font-size: 21px;
+  line-height: 26px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.card-level {
+  margin-top: 8px;
+}
+
+.card-level-item {
+  display: flex;
+  align-items: center;
+  height: 20px;
+}
+
+.card-level-item:not(:first-child) {
+  margin-top: 4px;
+}
+
+.card-level-item .level-icon {
+  flex-shrink: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.card-level-item > span {
+  display: block;
+  height: 20px;
+  line-height: 20px;
+  font-size: 13px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.card-level-item > span.level-name {
+  margin-left: 3px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.card-level-item > span.level-value {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 探索度进度区 */
+.exploration-block {
+  position: relative;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 12px 16px 15px;
+  border-radius: 5px;
+  width: calc(100% - 30px);
+  margin: 0 auto 15px;
+}
+
+.card-percent-item {
+  width: 100%;
+}
+
+.card-percent-item.exploration-child-row {
+  margin-top: 12px;
+}
+
+.card-percent-item .percent-info {
+  display: flex;
+  align-items: center;
+  height: 18px;
+}
+
+.card-percent-item .percent-info > span {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  line-height: 18px;
+  height: 18px;
+}
+
+.card-percent-item .percent-info > span.percent-value {
+  color: #fff;
+  font-weight: 600;
+  margin-left: 3px;
+}
+
+.card-percent-item .percent-info > span.percent-value.is-full {
+  color: #ddca9f;
+}
+
+.card-percent-item .percent-progress {
+  margin-top: 6px;
+  width: 100%;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.card-percent-item .percent-progress .progress-value {
+  display: block;
+  background: #ddca9f;
+  height: 5px;
+  border-radius: 4px;
+}
+
+/* 聚所/特殊供奉 */
+.offerings-list {
+  position: relative;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.16);
+  padding: 10px 15px 15px;
+  border-radius: 5px;
+  width: calc(100% - 30px);
+  margin: 12px auto 15px;
+}
+
+.offerings-list .offerings-title {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  line-height: 18px;
+  margin-bottom: 8px;
+}
+
+.offerings-list .divider {
+  display: none;
+}
+
+.offerings-list .offerings-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.offerings-list .offering-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  padding: 4px 12px 4px 4px;
+  height: 28px;
+}
+
+.offerings-list .offering-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.offerings-list .offering-name {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 11px;
+  line-height: 20px;
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.offerings-list .offering-level {
+  color: #fff;
+  font-size: 11px;
+  line-height: 20px;
+  font-weight: 600;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+/* 区域首领图鉴 */
+.boss-list {
+  position: relative;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.16);
+  padding: 12px 16px 15px;
+  border-radius: 5px;
+  width: calc(100% - 30px);
+  margin: 12px auto 15px;
+}
+
+.boss-list .boss-title {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  line-height: 18px;
+  margin-bottom: 8px;
+}
+
+.boss-list .divider {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 35px;
+  bottom: 15px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.boss-list .boss-items {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.boss-list .boss-items > p {
+  width: calc(50% - 18px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.boss-list .boss-items > p:nth-child(even) {
+  margin-left: 36px;
+}
+
+.boss-list .boss-items > p:nth-child(1),
+.boss-list .boss-items > p:nth-child(2) {
+  margin-top: 0;
+}
+
+.boss-list .boss-name {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.boss-list .boss-kill {
+  color: #fff;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 600;
+}
+
+/* 详细区域探索度 */
+.area-exploration-list {
+  position: relative;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+  width: calc(100% - 30px);
+  margin: 0 auto 15px;
+  padding: 12px 16px 14px;
+  box-sizing: border-box;
+}
+
+.area-exploration-list .area-title {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 18px;
+  margin-bottom: 8px;
+}
+
+.area-exploration-list .area-items {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.area-exploration-list .divider {
+  position: absolute;
+  left: 50%;
+  top: 40px;
+  bottom: 16px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.area-exploration-list .area-items > p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(50% - 12px);
+  font-size: 12px;
+  line-height: 17px;
+  color: rgba(255, 255, 255, 0.75);
+  overflow: hidden;
+}
+
+.area-exploration-list .area-items > p:nth-child(even) {
+  margin-left: 24px;
+}
+
+.area-exploration-list .area-items > p:nth-child(n + 3) {
+  margin-top: 6px;
+}
+
+.area-exploration-list .area-items > p .area-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.area-exploration-list .area-items > p .area-percent {
+  color: #fff;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+.area-exploration-list .area-items > p .area-percent.is-full {
+  color: #ddca9f;
+}
 /*# sourceMappingURL=role-explore.css.map */

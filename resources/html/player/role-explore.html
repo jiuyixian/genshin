@@ -50,6 +50,107 @@
 </div>
 {{/if}}
 
+{{if exploreStyle===1}}
+<div class="world_box">
+  <div class="tab_lable">世界探索</div>
+  {{each worldCards card}}
+  <div class="world-card">
+    <div class="world-bgs" style="background: {{card.bg}};">
+      {{if card.gradient}}<div class="gradient" style="background: {{card.gradient}};"></div>{{/if}}
+      {{if card.bgImage}}
+      <img class="image" src="{{_res_path}}img/other/{{card.bgImage}}" />
+      {{/if}}
+      <i class="border"></i>
+    </div>
+    <div class="card-main-container">
+      <img class="card-logo" src="{{_res_path}}img/other/{{card.name}}.png" />
+      <div class="card-header">
+        <div class="card-name-wrapper">
+          <p>{{card.name}}</p>
+        </div>
+        <div class="card-level">
+          {{each card.levels lv}}
+          <div class="card-level-item">
+            <img class="level-icon" src="{{_res_path}}img/other/{{lv.icon}}" />
+            <span class="level-name">{{lv.name}}：</span>
+            <span class="level-value">{{lv.value}}</span>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+    <div class="exploration-block">
+      {{each card.percents item idx}}
+      <div class="card-percent-item {{idx!==0 ? 'exploration-child-row' : ''}}">
+        <div class="percent-info">
+          <span>{{item.name}}探索度：</span>
+          <span class="percent-value {{item.percent>=100 ? 'is-full' : ''}}">
+            {{if item.maxPercent}}
+            {{item.percent}}%/{{item.maxPercent}}%
+            {{else}}
+            {{item.percent}}%
+            {{/if}}
+          </span>
+        </div>
+        <div class="percent-progress">
+          <i class="progress-value" style="width: {{item.percent}}%;"></i>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    {{if exploreShowAreas && card.areas && card.areas.length}}
+    <div class="area-exploration-list">
+      <div class="area-title">详细区域探索度</div>
+      <i class="divider"></i>
+      <div class="area-items">
+        {{each card.areas area}}
+        <p>
+          <span class="area-name">{{area.name}}</span>
+          <span class="area-percent {{area.percent>=100 ? 'is-full' : ''}}">
+            {{if area.maxPercent}}
+            {{area.percent}}%/{{area.maxPercent}}%
+            {{else}}
+            {{area.percent}}%
+            {{/if}}
+          </span>
+        </p>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+    {{if exploreShowOfferings && card.offerings && card.offerings.length}}
+    <div class="offerings-list">
+      <div class="offerings-title">聚所/特殊供奉/部族声望</div>
+      <i class="divider"></i>
+      <div class="offerings-items">
+        {{each card.offerings offering}}
+        <div class="offering-item">
+          <img class="offering-icon" src="{{_res_path}}img/other/{{offering.icon}}" />
+          <span class="offering-name">{{offering.name}}</span>
+          <span class="offering-level">{{offering.level}}</span>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+    {{if exploreShowBosses && card.bosses && card.bosses.length}}
+    <div class="boss-list">
+      <div class="boss-title">区域首领图鉴</div>
+      <i class="divider"></i>
+      <div class="boss-items">
+        {{each card.bosses boss}}
+        <p>
+          <span class="boss-name">{{boss.name}}</span>
+          <span class="boss-kill">×{{boss.killNum}}</span>
+        </p>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+  </div>
+  {{/each}}
+</div>
+{{else}}
 <div class="explor_box">
   <div class="tab_lable">地图探险</div>
   {{each explor val}}
@@ -63,4 +164,5 @@
   </div>
   {{/each}}
 </div>
+{{/if}}
 {{/block}}

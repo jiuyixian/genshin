@@ -1,0 +1,269 @@
+@font-face {
+  font-family: "YS";
+  src: url("../../font/YS.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  font-family: "YS";
+}
+
+body {
+  z-index: -1;
+  font-size: 16px;
+  color: #f4f7ff;
+  transform: scale(1.5);
+  transform-origin: 0 0;
+}
+
+.container {
+  width: 520px;
+  min-height: 100%;
+  padding: 18px 14px 20px;
+  background-color: #101522;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+
+.sr_head_box {
+  position: relative;
+  min-height: 86px;
+  display: flex;
+  align-items: center;
+  padding: 12px 128px 12px 14px;
+  border-radius: 10px;
+  background: rgba(11, 16, 28, .78);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12);
+}
+
+.sr_head_box .avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 2px solid rgba(160, 197, 255, .85);
+  background: #1b2438;
+}
+
+.role_info {
+  margin-left: 12px;
+  min-width: 0;
+}
+
+.nickname {
+  max-width: 270px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 19px;
+  color: #fff;
+}
+
+.nickname span {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #d6b36a;
+  color: #151515;
+  font-size: 11px;
+  vertical-align: 2px;
+}
+
+.uid_line {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(244, 247, 255, .76);
+}
+
+.uid_line i {
+  width: 1px;
+  height: 12px;
+  margin: 0 8px;
+  background: rgba(255, 255, 255, .28);
+}
+
+.sr_logo {
+  position: absolute;
+  right: 14px;
+  top: 18px;
+  width: 106px;
+}
+
+.sr_data_box {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(248, 250, 255, .94);
+  color: #1d2433;
+}
+
+.head_stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 4px 0 12px;
+}
+
+.split {
+  width: 1px;
+  height: 32px;
+  background: rgba(54, 69, 95, .18);
+}
+
+.head_stat,
+.data_item {
+  text-align: center;
+}
+
+.num {
+  font-size: 20px;
+  line-height: 1.1;
+  color: #1e355f;
+}
+
+.num span {
+  margin-left: 2px;
+  font-size: 12px;
+  color: #7c8698;
+}
+
+.label {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #6e7686;
+}
+
+.data_line {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.data_item {
+  min-height: 56px;
+  padding: 9px 4px 7px;
+  border-radius: 7px;
+  background: #eef3fb;
+}
+
+.sr_explore_box {
+  margin-top: 12px;
+}
+
+.tab_label {
+  margin: 0 0 8px 2px;
+  font-size: 17px;
+  color: #fff;
+}
+
+.world_card {
+  overflow: hidden;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: rgba(248, 250, 255, .96);
+  color: #1e2636;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .22);
+}
+
+.world_head {
+  height: 74px;
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  background-size: cover;
+  background-position: center;
+}
+
+.world_icon {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+}
+
+.world_title {
+  min-width: 0;
+  flex: 1;
+  margin-left: 12px;
+}
+
+.world_name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 18px;
+  color: #fff;
+}
+
+.world_count {
+  margin-top: 5px;
+  font-size: 12px;
+  color: rgba(244, 247, 255, .76);
+}
+
+.world_percent {
+  margin-left: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(214, 179, 106, .95);
+  color: #151515;
+  font-size: 16px;
+}
+
+.progress {
+  height: 5px;
+  background: #dfe6f1;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  max-width: 100%;
+  background: linear-gradient(90deg, #5ba8ff, #d6b36a);
+}
+
+.map_grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 7px;
+  padding: 10px;
+}
+
+.map_item {
+  min-height: 44px;
+  padding: 7px 8px;
+  border-radius: 7px;
+  background: #edf2f9;
+  border: 1px solid #dfe6f0;
+}
+
+.map_item.done {
+  background: #edf7f1;
+  border-color: #cfe8d9;
+}
+
+.map_name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #30394d;
+}
+
+.map_count {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #4f6d9f;
+}
+
+.map_item.done .map_count {
+  color: #3a8a55;
+}

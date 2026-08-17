@@ -1,10 +1,7 @@
 ### Yunzai Genshin Plugin
 # Fork自用
 
-新增功能
-<details>
-<summary>支持锅巴配置通知群，需修改文件</summary>
-Guoba-Plugin\server\service\v3\system\PluginService.js 第 11 行
+新增功能（需修改文件）
 
 ```sh
 this.exclude = [
@@ -14,8 +11,14 @@ this.exclude = [
   'system',
 ]
 ```
+
+新增详细区域探索（超过100%），可通过锅巴配置显示内容，感谢 [genshin-anomaly](https://github.com/JoLoZ/genshin-anomaly)
+
+<details>
+<summary>支持锅巴配置通知群</summary>
+Guoba-Plugin\server\service\v3\system\PluginService.js 第 11 行
 </details> 
-<br/>
+<br>
 
 | 米游社查询指令 | 说明|
 | :---------------- | --------------- |

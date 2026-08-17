@@ -12,37 +12,41 @@ export class role extends plugin {
       dsc: '原神角色信息查询',
       event: 'message',
       priority: 200,
-      rule: [{
-        reg: '^(#*角色3|#*角色卡片|角色)$',
-        fnc: 'roleCard'
-      }, {
-        reg: '^#[上期|往期|本期]*(深渊|深境|深境螺旋)[上期|往期|本期]*[ |0-9]*$',
-        fnc: 'abyss'
-      }, {
-        reg: '^#*[上期|往期|本期]*(深渊|深境|深境螺旋)[上期|往期|本期]*[第]*(9|10|11|12|九|十|十一|十二)层[ |0-9]*$',
-        fnc: 'abyssFloor'
-      }, {
-        reg: '^#[五星|四星|5星|4星]*武器[ |0-9]*$',
-        fnc: 'weapon'
-      }, {
-        reg: '^#(宝箱|成就|尘歌壶|家园|探索|探险|声望|探险度|探索度)[ |0-9]*$',
-        fnc: 'roleExplore',
-      }, {
-        reg: '^#(幻想真境剧诗|剧诗)$',
-        fnc: 'combat'
-      }]
+      rule: [
+        {
+          reg: '^#*(角色3|角色卡片|角色)$',
+          fnc: 'roleCard'
+        }, {
+          reg: '^#[上期|往期|本期]*(深渊|深境|深境螺旋)[上期|往期|本期]*[ |0-9]*$',
+          fnc: 'abyss'
+        }, {
+          reg: '^#*[上期|往期|本期]*(深渊|深境|深境螺旋)[上期|往期|本期]*[第]*(9|10|11|12|九|十|十一|十二)层[ |0-9]*$',
+          fnc: 'abyssFloor'
+        }, {
+          reg: '^#[五星|四星|5星|4星]*武器[ |0-9]*$',
+          fnc: 'weapon'
+        }, {
+          reg: '^#?(原神|星铁|星穹铁道)?(宝箱|成就|尘歌壶|家园|探索|探险|声望|探险度|探索度)[ |0-9]*$',
+          fnc: 'roleExplore',
+        }, {
+          reg: '^#(幻想真境剧诗|剧诗)$',
+          fnc: 'combat'
+        }
+      ]
     })
 
-    Object.defineProperty(this, "button", { get() {
-      this.prefix = this.e?.isSr ? "*" : "#"
-      return segment.button([
-        { text: "角色", callback: `${this.prefix}角色` },
-        { text: "探索", callback: `${this.prefix}探索` },
-        { text: "武器", callback: `${this.prefix}武器` },
-        { text: "深渊", callback: `${this.prefix}深渊` },
-        { text: "剧诗", callback: `${this.prefix}剧诗` },
-      ])
-    }})
+    Object.defineProperty(this, "button", {
+      get() {
+        this.prefix = this.e?.isSr ? "*" : "#"
+        return segment.button([
+          { text: "角色", callback: `${this.prefix}角色` },
+          { text: "探索", callback: `${this.prefix}探索` },
+          { text: "武器", callback: `${this.prefix}武器` },
+          { text: "深渊", callback: `${this.prefix}深渊` },
+          { text: "剧诗", callback: `${this.prefix}剧诗` }
+        ])
+      }
+    })
   }
 
   /** 初始化配置文件 */
@@ -78,12 +82,13 @@ export class role extends plugin {
   }
 
   /**幻想真境剧诗 */
-  async combat(){
+  async combat() {
     let data = await new Abyss(this.e).getCombat()
     if (!data) return
-    
+
     this.reply([await this.renderImg('genshin', 'html/abyss/combat', data, { retType: "base64" }), this.button])
   }
+
   /** 深渊 */
   async abyss() {
     let data = await new Abyss(this.e).getAbyss()
@@ -118,9 +123,17 @@ export class role extends plugin {
 
   /** 探险 */
   async roleExplore() {
+    if (this.e.msg?.startsWith('*') || /星铁|星穹铁道/.test(this.e.msg || '')) {
+      this.e.isSr = true
+      this.e.game = 'sr'
+    }
     let data = await new RoleIndex(this.e).roleExplore()
     if (!data) return
 
-    this.reply([await this.renderImg('genshin', 'html/player/role-explore', data, { retType: "base64" }), this.button])
+    let tpl = 'html/player/role-explore'
+    if (data.game === 'sr') {
+      tpl = 'html/player/role-explore-sr'
+    }
+    this.reply([await this.renderImg('genshin', tpl, data, { retType: "base64", scale: 1 }), this.button])
   }
 }

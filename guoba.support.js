@@ -7,6 +7,10 @@ import _ from 'lodash'
 const CONFIG_FILE = 'plugins/genshin/config/mys.pushNews.yaml'
 const DEFAULT_CONFIG = 'plugins/genshin/defSet/mys/pushNews.yaml'
 
+// 通用设置（mys.set.yaml）
+const SET_FILE = 'plugins/genshin/config/mys.set.yaml'
+const SET_DEFAULT = 'plugins/genshin/defSet/mys/set.yaml'
+
 // ── 工具函数 ──
 function readConfig() {
   const file = _path.resolve(process.cwd(), CONFIG_FILE)
@@ -18,6 +22,29 @@ function readConfig() {
 
 function saveConfig(cfg) {
   fs.writeFileSync(_path.resolve(process.cwd(), CONFIG_FILE), YAML.stringify(cfg), 'utf-8')
+}
+
+/** 读取 mys.set.yaml，无用户配置时回落默认配置 */
+function readSet() {
+  const file = _path.resolve(process.cwd(), SET_FILE)
+  if (fs.existsSync(file)) return YAML.parse(fs.readFileSync(file, 'utf-8')) || {}
+  const def = _path.resolve(process.cwd(), SET_DEFAULT)
+  if (fs.existsSync(def)) return YAML.parse(fs.readFileSync(def, 'utf-8')) || {}
+  return {}
+}
+
+/** 写入 mys.set.yaml，用 Document 保留原有注释 */
+function saveSet(patch) {
+  const file = _path.resolve(process.cwd(), SET_FILE)
+  const src = fs.existsSync(file)
+    ? fs.readFileSync(file, 'utf-8')
+    : fs.readFileSync(_path.resolve(process.cwd(), SET_DEFAULT), 'utf-8')
+
+  const doc = YAML.parseDocument(src)
+  for (const [key, val] of Object.entries(patch)) {
+    doc.set(key, val)
+  }
+  fs.writeFileSync(file, String(doc), 'utf-8')
 }
 
 /**
@@ -147,6 +174,38 @@ const buildSchemas = () => {
     componentProps: { min: 1, max: 50, placeholder: '20' },
   })
 
+  // 原神探索
+  schemas.push({ component: 'SOFT_GROUP_BEGIN', label: '原神探索' })
+
+  schemas.push({
+    field: 'exploreStyle',
+    label: '新版探索度样式',
+    bottomHelpMessage:
+      '开启后 #探索 使用米游社「世界探索」风格的世界卡片展示探索度（含主区域与子区域进度条）；关闭则使用旧版简洁列表。仅影响原神，星铁不受影响',
+    component: 'Switch',
+  })
+
+  schemas.push({
+    field: 'exploreShowOfferings',
+    label: '显示聚所/特殊供奉',
+    bottomHelpMessage: '开启后在新版探索度卡片中显示「聚所/特殊供奉」区块（如挪德卡莱的8个聚所）。仅在新版样式下生效',
+    component: 'Switch',
+  })
+
+  schemas.push({
+    field: 'exploreShowAreas',
+    label: '显示详细区域探索度',
+    bottomHelpMessage: '开启后在新版探索度卡片中显示「详细区域探索度」区块（如璃月的碧水原、珉林等细分区域列表）。仅在新版样式下生效',
+    component: 'Switch',
+  })
+
+  schemas.push({
+    field: 'exploreShowBosses',
+    label: '显示区域首领图鉴',
+    bottomHelpMessage: '开启后在新版探索度卡片中显示「区域首领图鉴」区块（已击杀次数）。仅在新版样式下生效',
+    component: 'Switch',
+  })
+
   return schemas
 }
 
@@ -185,6 +244,13 @@ export function supportGuoba() {
         data.pushTime = cfg.pushTime || '0 0/1 * * * ?'
         data.maxNum = Number(cfg.maxNum) || 20
 
+        // 原神探索（存在 mys.set.yaml，Switch用布尔值）
+        const set = readSet()
+        data.exploreStyle = Number(set.exploreStyle ?? 1) === 1
+        data.exploreShowOfferings = Number(set.exploreShowOfferings ?? 1) === 1
+        data.exploreShowAreas = Number(set.exploreShowAreas ?? 1) === 1
+        data.exploreShowBosses = Number(set.exploreShowBosses ?? 1) === 1
+
         return data
       },
 
@@ -193,6 +259,24 @@ export function supportGuoba() {
         const cfg = readConfig()
 
         for (const [keyPath, val] of Object.entries(data)) {
+          // 原神探索：写入 mys.set.yaml，布尔值转 0/1
+          if (keyPath === 'exploreStyle') {
+            saveSet({ exploreStyle: val ? 1 : 0 })
+            continue
+          }
+          if (keyPath === 'exploreShowOfferings') {
+            saveSet({ exploreShowOfferings: val ? 1 : 0 })
+            continue
+          }
+          if (keyPath === 'exploreShowAreas') {
+            saveSet({ exploreShowAreas: val ? 1 : 0 })
+            continue
+          }
+          if (keyPath === 'exploreShowBosses') {
+            saveSet({ exploreShowBosses: val ? 1 : 0 })
+            continue
+          }
+
           // 跳过未知字段
           if (!GROUP_KEYS.includes(keyPath) && !['pushTime', 'maxNum'].includes(keyPath))
             continue

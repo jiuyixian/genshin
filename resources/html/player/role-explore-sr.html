@@ -1,0 +1,75 @@
+{{extend newdefLayout}}
+
+{{block 'css'}}
+<link rel="stylesheet" type="text/css" href="{{_res_path}}html/player/role-explore-sr.css"/>
+<style type="text/css">
+.container {
+  background-image: url('{{data.bg_img}}');
+}
+</style>
+{{/block}}
+
+{{block 'main'}}
+<div class="sr_head_box">
+  <img class="avatar" src="{{data.game_head_icon}}">
+  <div class="role_info">
+    <div class="nickname">{{data.nickname}}{{if data.level}}<span>Lv.{{data.level}}</span>{{/if}}</div>
+    <div class="uid_line">
+      <span>{{data.region}}</span>
+      <i></i>
+      <span>UID {{uid}}</span>
+    </div>
+  </div>
+  <img class="sr_logo" src="{{pluResPath}}img/other/logo.png">
+</div>
+
+<div class="sr_data_box">
+  <div class="head_stats">
+    {{each data.head item idx}}
+    {{if idx!==0}}<span class="split"></span>{{/if}}
+    <div class="head_stat">
+      <div class="num">{{item.num}}{{if item.extra}}<span>/{{item.extra}}</span>{{/if}}</div>
+      <div class="label">{{item.lable}}</div>
+    </div>
+    {{/each}}
+  </div>
+
+  {{each line val}}
+  <div class="data_line">
+    {{each val item}}
+    <div class="data_item">
+      <div class="num">{{item.num}}{{if item.extra}}<span>/{{item.extra}}</span>{{/if}}</div>
+      <div class="label">{{item.lable}}</div>
+    </div>
+    {{/each}}
+  </div>
+  {{/each}}
+</div>
+
+<div class="sr_explore_box">
+  <div class="tab_label">地图探索</div>
+  {{each explor world}}
+  <div class="world_card">
+    <div class="world_head" style="background-image: linear-gradient(90deg, rgba(18, 24, 42, .92), rgba(18, 24, 42, .62)), url('{{world.bgIcon}}');">
+      <img class="world_icon" src="{{world.icon}}">
+      <div class="world_title">
+        <div class="world_name">{{world.name}}</div>
+        <div class="world_count">{{world.cur}}/{{world.max}} 宝箱</div>
+      </div>
+      <div class="world_percent">{{world.percent}}%</div>
+    </div>
+    <div class="progress">
+      <span style="width: {{world.percent}}%;"></span>
+    </div>
+    <div class="map_grid">
+      {{each world.maps item}}
+      <div class="map_item {{if item.done}}done{{/if}}">
+        <div class="map_name">{{item.name}}</div>
+        <div class="map_count">{{item.cur}}/{{item.max}}</div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+  {{/each}}
+</div>
+{{/block}}
