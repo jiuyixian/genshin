@@ -109,6 +109,30 @@ const GROUPS = [
 // ── 收集所有推送群的 field key ──
 const GROUP_KEYS = _.flatMap(GROUPS, ([, items]) => items.map(f => f.key))
 
+// ── mys.set.yaml 中的探索相关字段 ──
+// Switch 项：前端布尔 ↔ YAML 0/1
+const SET_BOOL_KEYS = [
+  'exploreStyle',
+  'exploreShowOfferings',
+  'exploreShowAreas',
+  'exploreShowBosses',
+  'exploreSendEmail',
+  'exploreSmtpSecure',
+]
+// 文本/数字项：原样读写
+const SET_RAW_KEYS = [
+  'exploreSmtpHost',
+  'exploreSmtpPort',
+  'exploreSmtpUser',
+  'exploreSmtpPass',
+  'exploreColWorld',
+  'exploreColArea',
+  'exploreColMax',
+  'exploreColCur',
+  'exploreColGap',
+  'exploreMailNotice',
+]
+
 // ── 推送群子表单模板（GSubForm + GSelectGroup，复用于所有14个字段）──
 const GROUP_SUBFORM_SCHEMA = {
   component: 'GSubForm',
@@ -206,6 +230,112 @@ const buildSchemas = () => {
     component: 'Switch',
   })
 
+  // 探索度表格邮件
+  schemas.push({ component: 'SOFT_GROUP_BEGIN', label: '探索度表格邮件' })
+
+  schemas.push({
+    field: 'exploreSendEmail',
+    label: '出图后发送表格邮件',
+    bottomHelpMessage:
+      '开启后 #探索 出图成功时额外生成 xlsx 表格（地图区域 / 峰值上限 / 当前探索 / 距离达峰）并发送到下方邮箱。需先在 Yunzai 根目录执行 pnpm add exceljs nodemailer。仅新版样式的原神探索支持',
+    component: 'Switch',
+  })
+
+  schemas.push({
+    field: 'exploreSmtpHost',
+    label: 'SMTP 服务器',
+    bottomHelpMessage: '发件邮箱的 SMTP 地址，如 QQ 邮箱为 smtp.qq.com，163 为 smtp.163.com',
+    component: 'Input',
+    componentProps: { placeholder: 'smtp.qq.com' },
+  })
+
+  schemas.push({
+    field: 'exploreSmtpPort',
+    label: 'SMTP 端口',
+    bottomHelpMessage: 'SSL 加密一般为 465，STARTTLS 一般为 587',
+    component: 'InputNumber',
+    componentProps: { min: 1, max: 65535, placeholder: '465' },
+  })
+
+  schemas.push({
+    field: 'exploreSmtpSecure',
+    label: '使用 SSL',
+    bottomHelpMessage: '端口 465 时开启，端口 587 时关闭',
+    component: 'Switch',
+  })
+
+  schemas.push({
+    field: 'exploreSmtpUser',
+    label: '发件邮箱账号',
+    bottomHelpMessage: '用于发送邮件的邮箱地址，同时作为发件人显示',
+    component: 'Input',
+    componentProps: { placeholder: 'yourname@qq.com' },
+  })
+
+  schemas.push({
+    field: 'exploreSmtpPass',
+    label: '邮箱授权码',
+    bottomHelpMessage: '邮箱的 SMTP 授权码，不是登录密码。QQ/163 邮箱需在设置中单独开启并生成',
+    component: 'InputPassword',
+    componentProps: { placeholder: '邮箱设置中生成的授权码' },
+  })
+
+  schemas.push({
+    field: 'exploreMailNotice',
+    label: '提示文字',
+    bottomHelpMessage:
+      '附加在「即将发送邮件」提示与邮件正文末尾的说明文字。留空则不显示',
+    component: 'Input',
+    componentProps: {
+      type: 'textarea',
+      rows: 2,
+      placeholder: '# 注意：可给机器人发送  #关闭邮件发送  、#开启邮件发送  控制是否发送邮件',
+    },
+  })
+
+  // 表格列名
+  schemas.push({ component: 'SOFT_GROUP_BEGIN', label: '表格列名' })
+
+  schemas.push({
+    field: 'exploreColWorld',
+    label: '大区域 列名',
+    bottomHelpMessage: 'xlsx 表格中第一列（国家/大区域）的表头名称。留空则用默认值「大区域」',
+    component: 'Input',
+    componentProps: { placeholder: '大区域' },
+  })
+
+  schemas.push({
+    field: 'exploreColArea',
+    label: '地图区域 列名',
+    bottomHelpMessage: 'xlsx 表格中子区域名称列的表头。留空则用默认值「地图区域」',
+    component: 'Input',
+    componentProps: { placeholder: '地图区域' },
+  })
+
+  schemas.push({
+    field: 'exploreColMax',
+    label: '峰值上限 列名',
+    bottomHelpMessage: 'xlsx 表格中区域探索度上限列的表头。留空则用默认值「峰值上限」',
+    component: 'Input',
+    componentProps: { placeholder: '峰值上限' },
+  })
+
+  schemas.push({
+    field: 'exploreColCur',
+    label: '当前探索 列名',
+    bottomHelpMessage: 'xlsx 表格中当前探索度列的表头。留空则用默认值「当前探索」',
+    component: 'Input',
+    componentProps: { placeholder: '当前探索' },
+  })
+
+  schemas.push({
+    field: 'exploreColGap',
+    label: '距离达峰 列名',
+    bottomHelpMessage: 'xlsx 表格中差值列的表头，该列为 0 时显示绿色、不为 0 显示红色。留空则用默认值「距离达峰」',
+    component: 'Input',
+    componentProps: { placeholder: '距离达峰' },
+  })
+
   return schemas
 }
 
@@ -251,6 +381,23 @@ export function supportGuoba() {
         data.exploreShowAreas = Number(set.exploreShowAreas ?? 1) === 1
         data.exploreShowBosses = Number(set.exploreShowBosses ?? 1) === 1
 
+        // 探索度表格邮件
+        data.exploreSendEmail = Number(set.exploreSendEmail ?? 0) === 1
+        data.exploreSmtpHost = set.exploreSmtpHost || ''
+        data.exploreSmtpPort = Number(set.exploreSmtpPort ?? 465)
+        data.exploreSmtpSecure = Number(set.exploreSmtpSecure ?? 1) === 1
+        data.exploreSmtpUser = set.exploreSmtpUser || ''
+        data.exploreSmtpPass = set.exploreSmtpPass || ''
+        data.exploreMailNotice =
+          set.exploreMailNotice ?? '# 注意：可给机器人发送  #关闭邮件发送  、#开启邮件发送  控制是否发送邮件'
+
+        // 表格列名（留空时前端显示默认值）
+        data.exploreColWorld = set.exploreColWorld || '大区域'
+        data.exploreColArea = set.exploreColArea || '地图区域'
+        data.exploreColMax = set.exploreColMax || '峰值上限'
+        data.exploreColCur = set.exploreColCur || '当前探索'
+        data.exploreColGap = set.exploreColGap || '距离达峰'
+
         return data
       },
 
@@ -259,21 +406,14 @@ export function supportGuoba() {
         const cfg = readConfig()
 
         for (const [keyPath, val] of Object.entries(data)) {
-          // 原神探索：写入 mys.set.yaml，布尔值转 0/1
-          if (keyPath === 'exploreStyle') {
-            saveSet({ exploreStyle: val ? 1 : 0 })
+          // 原神探索开关：写入 mys.set.yaml，布尔值转 0/1
+          if (SET_BOOL_KEYS.includes(keyPath)) {
+            saveSet({ [keyPath]: val ? 1 : 0 })
             continue
           }
-          if (keyPath === 'exploreShowOfferings') {
-            saveSet({ exploreShowOfferings: val ? 1 : 0 })
-            continue
-          }
-          if (keyPath === 'exploreShowAreas') {
-            saveSet({ exploreShowAreas: val ? 1 : 0 })
-            continue
-          }
-          if (keyPath === 'exploreShowBosses') {
-            saveSet({ exploreShowBosses: val ? 1 : 0 })
+          // 原神探索文本/数字项：原样写入 mys.set.yaml
+          if (SET_RAW_KEYS.includes(keyPath)) {
+            saveSet({ [keyPath]: val ?? '' })
             continue
           }
 

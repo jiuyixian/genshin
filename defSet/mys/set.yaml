@@ -8,3 +8,30 @@ cookieDoc: https://docs.qq.com/doc/DUWNVQVFTU3liTVlO  ，  https://b.storyo.cn/a
 abbrSetAuth: 0
 # 米游社攻略图默认来源设置 1-西风驿站 2-原神观测枢 3-派蒙喵喵屋 4-OH是姜姜呀
 defaultSource: 1
+# 原神探索度显示样式 0-旧版（简洁列表） 1-新版（米游社世界卡片）
+exploreStyle: 1
+# 新版探索度世界卡片中的可选区块显示开关（仅 exploreStyle=1 时生效）
+exploreShowOfferings: 1      # 聚所/特殊供奉
+exploreShowAreas: 1          # 详细区域探索度
+exploreShowBosses: 1         # 区域首领图鉴
+
+# ── 探索度表格邮件 ──
+# 需在 Yunzai 根目录执行：pnpm add exceljs nodemailer
+# 总开关 0-关闭 1-开启（开启后 #探索 出图成功时生成 xlsx 表格并发送邮件）
+exploreSendEmail: 0
+# SMTP 配置（QQ邮箱示例：smtp.qq.com / 465 / SSL开）
+exploreSmtpHost: ''
+exploreSmtpPort: 465
+exploreSmtpSecure: 1         # 是否SSL 1-开(端口465) 0-关(端口587)
+exploreSmtpUser: ''          # 发件邮箱账号
+exploreSmtpPass: ''          # 发件邮箱授权码（非登录密码）
+# 收件邮箱固定为触发命令的用户自己（其QQ号@qq.com），无需配置
+# 触发者不是QQ号时（如QQBot openid / 频道 / 其他适配器）不发送邮件
+# 表格中4个参数的显示名称，可自行修改
+exploreColWorld: 大区域
+exploreColArea: 地图区域
+exploreColMax: 峰值上限
+exploreColCur: 当前探索
+exploreColGap: 距离达峰
+# 出图与邮件中的提示语，留空则不显示
+exploreMailNotice: '# 注意：可给机器人发送  #关闭邮件发送  、#开启邮件发送  控制是否发送邮件'

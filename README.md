@@ -3,6 +3,7 @@
 
 新增功能（需修改文件）
 
+Guoba-Plugin\server\service\v3\system\PluginService.js 第 11 行
 ```sh
 this.exclude = [
   'example',
@@ -12,12 +13,9 @@ this.exclude = [
 ]
 ```
 
-新增详细区域探索（超过100%），可通过锅巴配置显示内容，感谢 [genshin-anomaly](https://github.com/JoLoZ/genshin-anomaly)
+新增详细区域探索（超过100%），可发送探索表格（机器人管理自行填写发信邮箱参数），可通过锅巴配置显示内容，感谢 [genshin-anomaly](https://github.com/JoLoZ/genshin-anomaly)
 
-<details>
-<summary>支持锅巴配置通知群</summary>
-Guoba-Plugin\server\service\v3\system\PluginService.js 第 11 行
-</details> 
+支持锅巴配置通知群
 <br>
 
 | 米游社查询指令 | 说明|
